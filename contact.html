@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Расскажите о задаче веб-студии Точка. Форма для обсуждения сайта, дизайна или редизайна, подготовленная к подключению Formspree.">
+    <meta name="theme-color" content="#f6f5f1">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:site_name" content="Точка — веб-студия">
+    <meta property="og:title" content="Контакты и обсуждение проекта — Точка, веб-студия">
+    <meta property="og:description" content="Расскажите о задаче веб-студии Точка. Форма для обсуждения сайта, дизайна или редизайна, подготовленная к подключению Formspree.">
+    <title>Контакты и обсуждение проекта — Точка, веб-студия</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./script.js" defer></script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Перейти к содержимому</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="./index.html" aria-label="Точка — на главную"><span class="brand-dot" aria-hidden="true"></span>точка<span class="brand-caption">веб-студия</span></a>
+        <button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" hidden><span class="menu-icon" aria-hidden="true"></span><span class="menu-label">Меню</span></button>
+        <nav id="main-nav" class="main-nav" aria-label="Главное меню">
+          <a href="./index.html">Главная</a>
+          <a href="./services.html">Услуги</a>
+          <a href="./about.html">О нас</a>
+          <a href="./contact.html" aria-current="page">Контакты</a>
+        </nav>
+        <a class="header-cta" href="./contact.html">Обсудить проект <span class="arrow" aria-hidden="true"></span></a>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      <section class="page-intro container" aria-labelledby="page-title">
+        <p class="eyebrow">Контакты / Начнём с разговора</p>
+        <h1 id="page-title">Ваша идея заслуживает<br><span class="accent">хорошего сайта.</span></h1>
+        <div class="intro-bottom">
+          <p>Расскажите, что задумали.<br>Пара предложений — уже хорошее начало.</p><span class="small-label">Большие проекты начинаются с «привет»</span>
+        </div>
+      </section>
+      <section class="section contact-section" aria-labelledby="contact-form-title">
+        <div class="container contact-grid">
+          <aside class="contact-info" aria-labelledby="contact-info-title">
+            <p class="eyebrow">На связи</p>
+            <h2 id="contact-info-title">Давайте <br>знакомиться.</h2>
+            <p>Сайт с нуля, новый дизайн или небольшое улучшение — начните с вашей задачи.</p>
+            <div class="contact-detail"><span>Почта</span><a href="mailto:hello@example.com">hello@example.com</a><small>Пример адреса — замените на свою почту.</small>
+            </div>
+            <div class="contact-detail"><span>Формат</span>
+              <p>Онлайн · Работаем удалённо</p>
+            </div>
+            <div class="contact-tip"><span aria-hidden="true">＋</span>
+              <p>Будет полезно указать цель сайта, желаемые сроки и примерный бюджет.</p>
+            </div>
+          </aside>
+          <div class="form-panel">
+            <h2 id="contact-form-title">Расскажите о проекте</h2>
+            <p class="form-intro">Поля со звёздочкой обязательны.</p>
+            <!-- Укажите только свой идентификатор формы в data-formspree-id. Пример подключения — в README.md. -->
+            <form id="contact-form" method="post" data-formspree-id="" aria-describedby="form-note">
+              <div class="form-row">
+                <div class="field">
+                  <label for="name">Имя <span aria-hidden="true">*</span></label>
+                  <input id="name" name="name" type="text" autocomplete="name" required maxlength="100" placeholder="Как к вам обращаться">
+                </div>
+                <div class="field">
+                  <label for="email">Email <span aria-hidden="true">*</span></label>
+                  <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com">
+                </div>
+              </div>
+              <div class="field">
+                <label for="message">Сообщение <span aria-hidden="true">*</span></label>
+                <textarea id="message" name="message" rows="6" required maxlength="5000" placeholder="Что вы хотите создать? Расскажите о своей идее."></textarea>
+              </div>
+              <p id="form-note" class="form-note">Форма пока не подключена к Formspree. Сообщения не отправляются. Инструкция по подключению — в README проекта.</p>
+              <button class="button button-dark" type="submit" disabled>Отправить <span class="arrow" aria-hidden="true"></span></button>
+              <p id="form-status" class="form-status" role="status" aria-live="polite" aria-atomic="true"></p>
+              <noscript>
+                <p class="form-note">Для работы этой формы включите JavaScript. Пока отправка недоступна.</p></noscript>
+            </form>
+          </div>
+        </div>
+      </section>
+      <section class="section section-white" aria-labelledby="next-title">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Что дальше</p>
+              <h2 id="next-title">Сначала разберёмся в задаче.</h2>
+            </div>
+          </div>
+          <ol class="process-grid process-three">
+            <li><span>01</span>
+              <h3>Знакомство</h3>
+              <p>Вы рассказываете об идее и о том, какой результат хотите получить.</p>
+            </li>
+            <li><span>02</span>
+              <h3>Уточнение деталей</h3>
+              <p>Обсуждаем страницы, материалы, функциональность и сроки.</p>
+            </li>
+            <li><span>03</span>
+              <h3>План проекта</h3>
+              <p>Согласуем объём работ и стоимость, прежде чем перейти к разработке.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-top"><a class="brand" href="./index.html"><span class="brand-dot" aria-hidden="true"></span>точка</a>
+        <p>Осмысленный дизайн. Чистый код.</p><a href="./contact.html" class="text-link">Начнём с разговора <span class="arrow" aria-hidden="true"></span></a>
+      </div>
+      <div class="container footer-bottom">
+        <p>© <span data-year>2026</span> Точка · Учебный проект веб-студии</p>
+        <p>С вниманием к каждой детали</p><a href="#top">Наверх ↑</a>
+      </div>
+    </footer>
+  </body>
+</html>

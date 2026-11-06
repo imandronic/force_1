@@ -1,78 +1,66 @@
-// Без JavaScript ссылки и описания проектов тоже работают.
-// Кнопку мобильного меню показываем, только когда её обработчики готовы.
+// Общее меню. Без JavaScript ссылки остаются открытыми.
 const menuButton = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('#main-nav');
-const navigationLinks = [...navigation.querySelectorAll('a')];
 const mobileScreen = window.matchMedia('(max-width: 760px)');
 
-function closeMenu(returnFocus = false) {
-  navigation.classList.remove('is-open');
-  menuButton.setAttribute('aria-expanded', 'false');
-  menuButton.querySelector('.menu-label').textContent = 'Меню';
-  if (returnFocus) menuButton.focus();
+if (menuButton && navigation) {
+  function closeMenu(returnFocus = false) {
+    navigation.classList.remove('is-open');
+    menuButton.setAttribute('aria-expanded', 'false');
+    menuButton.querySelector('.menu-label').textContent = 'Меню';
+    if (returnFocus) menuButton.focus();
+  }
+
+  menuButton.addEventListener('click', () => {
+    const isOpen = menuButton.getAttribute('aria-expanded') !== 'true';
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    menuButton.querySelector('.menu-label').textContent = isOpen ? 'Закрыть' : 'Меню';
+    navigation.classList.toggle('is-open', isOpen);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') closeMenu(true);
+  });
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('.site-header')) closeMenu();
+  });
+  document.querySelector('.site-header').addEventListener('focusout', () => {
+    window.requestAnimationFrame(() => {
+      if (!document.activeElement.closest('.site-header')) closeMenu();
+    });
+  });
+  mobileScreen.addEventListener('change', () => {
+    const focusWasInMenu = navigation.contains(document.activeElement);
+    closeMenu(mobileScreen.matches && focusWasInMenu);
+  });
+  menuButton.hidden = false;
+  document.documentElement.classList.add('js');
 }
 
-menuButton.addEventListener('click', () => {
-  const isOpen = menuButton.getAttribute('aria-expanded') !== 'true';
-  menuButton.setAttribute('aria-expanded', String(isOpen));
-  menuButton.querySelector('.menu-label').textContent = isOpen ? 'Закрыть' : 'Меню';
-  navigation.classList.toggle('is-open', isOpen);
+document.querySelectorAll('[data-year]').forEach((element) => {
+  element.textContent = new Date().getFullYear();
 });
 
-navigationLinks.forEach((link) => {
-  link.addEventListener('click', () => {
-    closeMenu();
-    // На телефоне переносим фокус из закрытого меню в выбранный раздел.
-    if (mobileScreen.matches) {
-      const section = document.querySelector(link.hash);
-      section.setAttribute('tabindex', '-1');
-      section.focus({ preventScroll: true });
+// ID задаётся в contact.html. До подключения данные никуда не отправляются.
+const contactForm = document.querySelector('#contact-form');
+if (contactForm) {
+  const formId = contactForm.dataset.formspreeId.trim();
+  const isConfigured = /^[a-zA-Z0-9]+$/.test(formId);
+  const status = document.querySelector('#form-status');
+  const note = document.querySelector('#form-note');
+
+  if (isConfigured) {
+    contactForm.action = `https://formspree.io/f/${encodeURIComponent(formId)}`;
+    note.textContent = 'При отправке имя, email и сообщение будут переданы сервису Formspree для обработки заявки. Подтверждение отправки покажет сам сервис.';
+  }
+
+  contactForm.querySelector('button[type="submit"]').disabled = false;
+  contactForm.addEventListener('submit', (event) => {
+    if (!isConfigured) {
+      event.preventDefault();
+      status.textContent = 'Сообщение не отправлено: форма пока не подключена. Владельцу сайта нужно указать свой идентификатор Formspree в contact.html.';
     }
+    // После подключения — обычная HTML-отправка POST и переход в Formspree.
+    // Результат покажет сам сервис; сайт не обещает успех заранее.
   });
-});
-
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
-    closeMenu(true);
-  }
-});
-
-document.addEventListener('click', (event) => {
-  if (!event.target.closest('.site-header')) closeMenu();
-});
-
-mobileScreen.addEventListener('change', () => closeMenu());
-menuButton.hidden = false;
-document.documentElement.classList.add('js');
-
-// Подсвечиваем раздел, который сейчас виден под фиксированной шапкой.
-const sections = [...document.querySelectorAll('main > section[id]')];
-let scrollScheduled = false;
-
-function updateActiveLink() {
-  let activeSection = sections[0];
-  const headerHeight = document.querySelector('.site-header').offsetHeight;
-  for (const section of sections) {
-    if (section.getBoundingClientRect().top <= headerHeight + 80) activeSection = section;
-  }
-  if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
-    activeSection = sections[sections.length - 1];
-  }
-  navigationLinks.forEach((link) => {
-    if (link.hash === `#${activeSection.id}`) link.setAttribute('aria-current', 'location');
-    else link.removeAttribute('aria-current');
-  });
-  scrollScheduled = false;
 }
-
-window.addEventListener('scroll', () => {
-  if (!scrollScheduled) {
-    scrollScheduled = true;
-    window.requestAnimationFrame(updateActiveLink);
-  }
-}, { passive: true });
-window.addEventListener('resize', updateActiveLink);
-updateActiveLink();
-
-// Год в подвале обновляется автоматически.
-document.querySelector('#year').textContent = new Date().getFullYear();
