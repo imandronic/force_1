@@ -56,8 +56,8 @@
           <div class="form-panel">
             <h2 id="contact-form-title">Расскажите о проекте</h2>
             <p class="form-intro">Поля со звёздочкой обязательны.</p>
-            <!-- Укажите только свой идентификатор формы в data-formspree-id. Пример подключения — в README.md. -->
-            <form id="contact-form" method="post" data-formspree-id="" aria-describedby="form-note">
+            <!-- Идентификатор Formspree. script.js подставляет адрес отправки в action. -->
+            <form id="contact-form" method="post" data-formspree-id="mbggbnwq" aria-describedby="form-note">
               <div class="form-row">
                 <div class="field">
                   <label for="name">Имя <span aria-hidden="true">*</span></label>
@@ -72,7 +72,7 @@
                 <label for="message">Сообщение <span aria-hidden="true">*</span></label>
                 <textarea id="message" name="message" rows="6" required maxlength="5000" placeholder="Что вы хотите создать? Расскажите о своей идее."></textarea>
               </div>
-              <p id="form-note" class="form-note">Форма пока не подключена к Formspree. Сообщения не отправляются. Инструкция по подключению — в README проекта.</p>
+              <p id="form-note" class="form-note">При отправке имя, email и сообщение будут переданы сервису Formspree для обработки заявки. Подтверждение отправки покажет сам сервис.</p>
               <button class="button button-dark" type="submit" disabled>Отправить <span class="arrow" aria-hidden="true"></span></button>
               <p id="form-status" class="form-status" role="status" aria-live="polite" aria-atomic="true"></p>
               <noscript>
