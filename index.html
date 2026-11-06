@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Портфолио начинающего веб-разработчика: знакомство, учебные проекты и контакты.">
+  <meta name="theme-color" content="#f7f8f2">
+  <title>Моё портфолио — веб-разработчик</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#home" aria-label="Моё портфолио — на главную"><span class="logo-mark" aria-hidden="true">м<span>.</span></span>моё портфолио</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden><span class="menu-icon" aria-hidden="true"></span><span class="menu-label">Меню</span></button>
+      <nav id="main-nav" class="main-nav" aria-label="Главное меню">
+        <a href="#home" aria-current="location">Главная</a>
+        <a href="#about">Обо мне</a>
+        <a href="#projects">Проекты</a>
+        <a class="nav-contact" href="#contact">Связаться <span class="arrow-diagonal" aria-hidden="true"></span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="home" class="hero section" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Мой путь в веб-разработке</p>
+          <h1 id="hero-title">Привет! Я создаю<br>свои первые<br><span>сайты.</span><span class="title-star" aria-hidden="true">✳</span></h1>
+          <p class="hero-description">Изучаю веб-разработку с нуля. Превращаю идеи в понятные интерфейсы — шаг за шагом, строка за строкой.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#projects">Смотреть проекты <span class="arrow-diagonal" aria-hidden="true"></span></a>
+            <a class="text-link" href="#about">Познакомимся <span aria-hidden="true">↓</span></a>
+          </div>
+          <div class="hero-note"><span class="note-line" aria-hidden="true"></span>Любопытство. Практика. Немного кода.</div>
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+          <div class="art-orbit"></div>
+          <div class="floating-label label-top"><span class="tiny-spark">✦</span> от идеи к первой странице</div>
+          <div class="browser-card">
+            <div class="browser-toolbar"><div class="window-dots"><i></i><i></i><i></i></div><span>my-first-website.html</span><span class="arrow-diagonal"></span></div>
+            <div class="art-page">
+              <div class="art-page-nav"><b>hello<span>.</span></b><div><i></i><i></i><i></i></div></div>
+              <div class="art-page-body"><div class="art-heading">Маленькая идея.<br>Большое начало<span>.</span></div><div class="art-lines"><i></i><i></i></div><div class="art-pill">Давайте создадим что-то →</div></div>
+              <div class="art-landscape"><div class="art-sun"></div><div class="art-hill hill-back"></div><div class="art-hill hill-front"></div><span>новые горизонты</span></div>
+              <div class="art-caption"><span>Сделано с любопытством</span><span>© 2026</span></div>
+            </div>
+          </div>
+          <div class="code-badge"><span>&lt;/&gt;</span> учусь, пробую, создаю</div>
+          <div class="art-spark">✳</div>
+        </div>
+      </div>
+      <div class="container hero-bottom"><span>Хороший сайт начинается с первого шага</span><a href="#about" aria-label="Далее: обо мне">Листайте вниз <span aria-hidden="true">↓</span></a></div>
+    </section>
+
+    <section id="about" class="section about-section" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <div><p class="eyebrow section-index">01 / Немного обо мне</p><h2 id="about-title">Всё начинается<br>с любопытства<span class="green-text">.</span></h2></div>
+        <div class="about-copy">
+          <p class="lead">Привет! Я начинающий веб-разработчик. Мне нравится разбираться, как устроены сайты, и создавать что-то своё.</p>
+          <p>Сейчас осваиваю основы: структуру страниц, стили и интерактивность. Учусь делать сайты удобными на любом экране и уделять внимание небольшим, но важным деталям.</p>
+          <p>Это моё первое портфолио и отправная точка для будущих работ. Здесь будут появляться новые проекты и открытия.</p>
+          <div class="skill-list" aria-label="Технологии, которые я изучаю"><span><b aria-hidden="true">&lt;/&gt;</b> HTML</span><span><b aria-hidden="true">#</b> CSS</span><span><b aria-hidden="true">{ }</b> JavaScript</span><span>Адаптивная вёрстка</span></div>
+        </div>
+      </div>
+      <div class="container learning-strip"><span class="strip-star" aria-hidden="true">✳</span><p>Не нужно знать всё, чтобы начать.<br><strong>Нужно начать, чтобы узнать больше.</strong></p><span class="strip-caption">Мой принцип в обучении</span></div>
+    </section>
+
+    <section id="projects" class="section projects-section" aria-labelledby="projects-title">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow section-index">02 / Практика в деле</p><h2 id="projects-title">Мои проекты<span class="green-text">.</span></h2></div><p>От простого к интересному.<br>Каждый проект — новый навык.</p></div>
+        <p class="sample-note">Ниже — примеры учебных проектов для вашего портфолио. Замените их своими работами, когда они будут готовы.</p>
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-preview preview-portfolio" aria-hidden="true"><span class="preview-number">01</span><div class="mini-portfolio"><div class="mini-nav">portfolio<span>•••</span></div><div class="mini-portfolio-content"><div><small>Привет, мир!</small><strong>Моё место<br>в интернете<span>.</span></strong><i></i></div><div class="mini-flower">✳</div></div><div class="mini-footer">Дизайн · Код · Немного меня</div></div><span class="preview-tag">ПЕРВЫЙ ШАГ</span></div>
+            <div class="project-content"><div class="project-meta"><span>Личный сайт</span><span>Пример / 01</span></div><h3>Сайт-портфолио</h3><p>Небольшой рассказ о себе, своих навыках и первых шагах в разработке.</p><div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div><details><summary>Что внутри <span class="arrow-diagonal" aria-hidden="true"></span></summary><p>Идея для практики: сверстать несколько разделов, добавить мобильное меню и навигацию по странице. Этот сайт уже можно использовать как основу.</p></details></div>
+          </article>
+          <article class="project-card">
+            <div class="project-preview preview-coffee" aria-hidden="true"><span class="preview-number">02</span><div class="mini-coffee"><div class="mini-nav">зерно<span>кофе с собой →</span></div><div class="coffee-layout"><div><small>Маленькая пауза</small><strong>Время<br>для кофе.</strong><i>Выбрать настроение →</i></div><div class="coffee-cup"><div></div></div></div></div><span class="preview-tag">ТЁПЛЫЕ ИДЕИ</span></div>
+            <div class="project-content"><div class="project-meta"><span>Лендинг</span><span>Пример / 02</span></div><h3>Страница кофейни</h3><p>Идея уютной страницы с меню, историей места и приглашением на чашку кофе.</p><div class="project-tags"><span>HTML</span><span>CSS</span><span>Адаптивность</span></div><details><summary>Что внутри <span class="arrow-diagonal" aria-hidden="true"></span></summary><p>Идея для практики: оформить меню напитков, подобрать типографику и расположить карточки так, чтобы они удобно читались с телефона. Отдельный сайт пока не создан.</p></details></div>
+          </article>
+          <article class="project-card">
+            <div class="project-preview preview-tasks" aria-hidden="true"><span class="preview-number">03</span><div class="mini-tasks"><div class="mini-nav">на сегодня<span>☀</span></div><strong>Маленькие планы</strong><small>Большие дела начинаются с малого</small><div class="mini-task checked"><b>✓</b><span>Написать первую страницу</span></div><div class="mini-task checked"><b>✓</b><span>Добавить немного стиля</span></div><div class="mini-task"><b></b><span>Придумать новый проект</span></div><div class="mini-task-add">+ Новая задача</div></div><span class="preview-tag">ШАГ ЗА ШАГОМ</span></div>
+            <div class="project-content"><div class="project-meta"><span>Веб-приложение</span><span>Пример / 03</span></div><h3>Список дел</h3><p>Идея простого помощника, чтобы записывать задачи и отмечать сделанное.</p><div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div><details><summary>Что внутри <span class="arrow-diagonal" aria-hidden="true"></span></summary><p>Идея для практики JavaScript: добавлять и удалять задачи, отмечать выполненные и сохранять список в браузере. Отдельное приложение пока не создано.</p></details></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section" aria-labelledby="contact-title">
+      <div class="container contact-panel"><div class="contact-copy"><p class="eyebrow">03 / На связи</p><h2 id="contact-title">Давайте создадим<br>что-нибудь <span>интересное.</span></h2><p>Есть идея, совет или просто хочется поздороваться? <br>Буду рад знакомству и новым возможностям учиться.</p><a class="button button-light" href="mailto:hello@example.com">Написать письмо <span class="arrow-diagonal" aria-hidden="true"></span></a><p class="contact-note">hello@example.com — пример адреса. <br>Перед использованием замените его на свою почту в HTML.</p></div><div class="contact-art" aria-hidden="true"><span class="arrow-diagonal"></span><div>Хорошие идеи<br>начинаются с «привет»</div></div></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-inner"><a class="logo" href="#home"><span class="logo-mark" aria-hidden="true">м<span>.</span></span>моё портфолио</a><p>© <span id="year">2026</span> · Сделано с интересом к вебу</p><a class="back-top" href="#home">Наверх <span aria-hidden="true">↑</span></a></div></footer>
+</body>
+</html>
