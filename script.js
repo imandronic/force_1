@@ -41,6 +41,38 @@ document.querySelectorAll('[data-year]').forEach((element) => {
   element.textContent = new Date().getFullYear();
 });
 
+// Фильтры работают только на странице портфолио; остальные страницы не затрагиваются.
+const portfolio = document.querySelector('[data-portfolio]');
+if (portfolio) {
+  const filters = portfolio.querySelector('.portfolio-filters');
+  const filterButtons = [...filters.querySelectorAll('[data-filter]')];
+  const projectCards = [...portfolio.querySelectorAll('[data-category]')];
+  const resultStatus = portfolio.querySelector('#portfolio-status');
+
+  function filterProjects(selectedButton) {
+    const category = selectedButton.dataset.filter;
+    let visibleCount = 0;
+
+    projectCards.forEach((card) => {
+      const isVisible = category === 'all' || card.dataset.category === category;
+      card.hidden = !isVisible;
+      if (isVisible) visibleCount += 1;
+    });
+
+    filterButtons.forEach((button) => {
+      button.setAttribute('aria-pressed', String(button === selectedButton));
+    });
+    resultStatus.textContent = `Показано проектов: ${visibleCount} из ${projectCards.length}. Категория: ${selectedButton.textContent.trim()}.`;
+  }
+
+  // Нативные кнопки поддерживают Tab, Enter и пробел без отдельных обработчиков клавиш.
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => filterProjects(button));
+  });
+  filterProjects(filterButtons[0]);
+  filters.hidden = false;
+}
+
 // ID задаётся в contact.html. До подключения данные никуда не отправляются.
 const contactForm = document.querySelector('#contact-form');
 if (contactForm) {

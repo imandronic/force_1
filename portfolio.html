@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Портфолио учебной веб-студии Точка: шесть демонстрационных концепций лендингов, корпоративных сайтов и дизайна интерфейсов.">
+    <meta name="theme-color" content="#f6f5f1">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:site_name" content="Точка — веб-студия">
+    <meta property="og:title" content="Портфолио — Точка, веб-студия">
+    <meta property="og:description" content="Шесть демонстрационных концепций: разные задачи, направления и визуальные решения. Учебные проекты, а не клиентские кейсы.">
+    <title>Портфолио — Точка, веб-студия</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./script.js" defer></script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Перейти к содержимому</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="./index.html" aria-label="Точка — на главную"><span class="brand-dot" aria-hidden="true"></span>точка<span class="brand-caption">веб-студия</span></a>
+        <button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" hidden><span class="menu-icon" aria-hidden="true"></span><span class="menu-label">Меню</span></button>
+        <nav id="main-nav" class="main-nav" aria-label="Главное меню">
+          <a href="./index.html">Главная</a>
+          <a href="./services.html">Услуги</a>
+          <a href="./portfolio.html" aria-current="page">Портфолио</a>
+          <a href="./about.html">О нас</a>
+          <a href="./contact.html">Контакты</a>
+        </nav>
+        <a class="header-cta" href="./contact.html">Обсудить проект <span class="arrow" aria-hidden="true"></span></a>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      <section class="page-intro container" aria-labelledby="page-title">
+        <p class="eyebrow">Портфолио / Пространство для идей</p>
+        <h1 id="page-title">Разные задачи.<br><span class="accent">Свой характер.</span></h1>
+        <div class="intro-bottom">
+          <p>Исследуем, как идея становится интерфейсом.<br>Шесть концепций — шесть визуальных историй.</p>
+          <span class="small-label">06 концепций · 03 направления</span>
+        </div>
+      </section>
+      <section class="section portfolio-section" aria-labelledby="portfolio-title" data-portfolio>
+        <div class="container">
+          <div class="portfolio-notice">
+            <span class="portfolio-notice-mark" aria-hidden="true">＋</span>
+            <p><strong>Все проекты — демонстрационные.</strong> Это учебные концепции вымышленных брендов. Они показывают идеи дизайна, а не реальные заказы, результаты или готовые сайты.</p>
+          </div>
+          <h2 id="portfolio-title" class="sr-only">Демонстрационные проекты</h2>
+          <div class="portfolio-toolbar">
+            <!-- Кнопки появляются после подключения обработчиков. Без JS видны все карточки. -->
+            <div class="portfolio-filters" role="group" aria-label="Фильтр проектов по категории" hidden>
+              <button type="button" data-filter="all" aria-pressed="true" aria-controls="portfolio-grid">Все</button>
+              <button type="button" data-filter="landing" aria-pressed="false" aria-controls="portfolio-grid">Лендинги</button>
+              <button type="button" data-filter="corporate" aria-pressed="false" aria-controls="portfolio-grid">Корпоративные сайты</button>
+              <button type="button" data-filter="design" aria-pressed="false" aria-controls="portfolio-grid">Дизайн</button>
+            </div>
+            <p id="portfolio-status" class="portfolio-status" role="status" aria-live="polite" aria-atomic="true">Показано проектов: 6 из 6. Категория: Все.</p>
+          </div>
+          <noscript><p class="portfolio-fallback">Для фильтрации включите JavaScript. Все шесть концепций доступны ниже и без него.</p></noscript>
+          <div id="portfolio-grid" class="portfolio-grid">
+            <article class="portfolio-card" data-category="corporate" aria-labelledby="project-form">
+              <div class="concept-art concept-form" aria-hidden="true">
+                <span>форма / 01</span>
+                <strong>Пространство<br>для простого.</strong>
+                <div class="concept-object"></div>
+                <small>Дизайн предметов и пространства</small>
+              </div>
+              <div class="portfolio-card-body">
+                <div class="portfolio-meta"><span class="demo-badge">Демонстрационная концепция</span><span>Корпоративный сайт</span></div>
+                <h3 id="project-form">Форма</h3>
+                <p>Сайт предметной дизайн-студии. Крупная типографика, спокойные оттенки и геометрия, которая продолжает идею простых вещей.</p>
+                <ul class="portfolio-tags" aria-label="Идеи проекта Форма"><li>Каталог работ</li><li>О студии</li><li>Контакты</li></ul>
+                <a class="portfolio-project-link" href="./contact.html" aria-label="Обсудить похожий проект: Форма">Обсудить похожий проект <span class="arrow" aria-hidden="true"></span></a>
+              </div>
+            </article>
+            <article class="portfolio-card" data-category="landing" aria-labelledby="project-grove">
+              <div class="concept-art concept-grove" aria-hidden="true">
+                <span>роща / 02</span>
+                <strong>Ближе<br>к природе.</strong>
+                <div class="grove-arch"></div>
+                <small>Место для новой истории</small>
+              </div>
+              <div class="portfolio-card-body">
+                <div class="portfolio-meta"><span class="demo-badge">Демонстрационная концепция</span><span>Лендинг</span></div>
+                <h3 id="project-grove">Роща</h3>
+                <p>Страница загородного отдыха. Природная палитра, мягкие формы и последовательный рассказ о месте, куда хочется вернуться.</p>
+                <ul class="portfolio-tags" aria-label="Идеи проекта Роща"><li>О месте</li><li>Варианты отдыха</li><li>Заявка</li></ul>
+                <a class="portfolio-project-link" href="./contact.html" aria-label="Обсудить похожий проект: Роща">Обсудить похожий проект <span class="arrow" aria-hidden="true"></span></a>
+              </div>
+            </article>
+            <article class="portfolio-card" data-category="design" aria-labelledby="project-pulse">
+              <div class="concept-art concept-pulse" aria-hidden="true">
+                <span>ритм / 03</span>
+                <strong>Двигайся.<br>В своём ритме.</strong>
+                <div class="pulse-rings"></div>
+                <small>Твоё пространство движения</small>
+              </div>
+              <div class="portfolio-card-body">
+                <div class="portfolio-meta"><span class="demo-badge">Демонстрационная концепция</span><span>Дизайн</span></div>
+                <h3 id="project-pulse">Ритм</h3>
+                <p>Визуальная концепция сайта спортивной студии. Ритмичная композиция, контрастные заголовки и акценты, вдохновлённые движением.</p>
+                <ul class="portfolio-tags" aria-label="Идеи проекта Ритм"><li>UI-дизайн</li><li>Типографика</li><li>Композиция</li></ul>
+                <a class="portfolio-project-link" href="./contact.html" aria-label="Обсудить похожий проект: Ритм">Обсудить похожий проект <span class="arrow" aria-hidden="true"></span></a>
+              </div>
+            </article>
+            <article class="portfolio-card" data-category="landing" aria-labelledby="project-grain">
+              <div class="concept-art concept-grain" aria-hidden="true">
+                <span>зерно / 04</span>
+                <strong>Хороший день<br>с первой чашки.</strong>
+                <div class="grain-cup"></div>
+                <small>Небольшая пауза с большим смыслом</small>
+              </div>
+              <div class="portfolio-card-body">
+                <div class="portfolio-meta"><span class="demo-badge">Демонстрационная концепция</span><span>Лендинг</span></div>
+                <h3 id="project-grain">Зерно</h3>
+                <p>Лендинг небольшой кофейни. Тёплая палитра, выразительные детали и простая структура для знакомства с меню и атмосферой.</p>
+                <ul class="portfolio-tags" aria-label="Идеи проекта Зерно"><li>Меню</li><li>История</li><li>Как найти</li></ul>
+                <a class="portfolio-project-link" href="./contact.html" aria-label="Обсудить похожий проект: Зерно">Обсудить похожий проект <span class="arrow" aria-hidden="true"></span></a>
+              </div>
+            </article>
+            <article class="portfolio-card" data-category="corporate" aria-labelledby="project-contour">
+              <div class="concept-art concept-contour" aria-hidden="true">
+                <span>контур / 05</span>
+                <strong>Архитектура.<br>С чистого листа.</strong>
+                <div class="contour-building"></div>
+                <small>Линии, которые становятся пространством</small>
+              </div>
+              <div class="portfolio-card-body">
+                <div class="portfolio-meta"><span class="demo-badge">Демонстрационная концепция</span><span>Корпоративный сайт</span></div>
+                <h3 id="project-contour">Контур</h3>
+                <p>Сайт архитектурного бюро. Строгая сетка, линии чертежа и пространство для описания проектов, услуг и философии команды.</p>
+                <ul class="portfolio-tags" aria-label="Идеи проекта Контур"><li>Проекты</li><li>Услуги</li><li>О бюро</li></ul>
+                <a class="portfolio-project-link" href="./contact.html" aria-label="Обсудить похожий проект: Контур">Обсудить похожий проект <span class="arrow" aria-hidden="true"></span></a>
+              </div>
+            </article>
+            <article class="portfolio-card" data-category="design" aria-labelledby="project-layer">
+              <div class="concept-art concept-layer" aria-hidden="true">
+                <span>слой / 06</span>
+                <strong>Идеи, которые<br>хочется читать.</strong>
+                <div class="layer-sheets"><i></i><i></i><i></i></div>
+                <small>Онлайн-журнал о творчестве</small>
+              </div>
+              <div class="portfolio-card-body">
+                <div class="portfolio-meta"><span class="demo-badge">Демонстрационная концепция</span><span>Дизайн</span></div>
+                <h3 id="project-layer">Слой</h3>
+                <p>Концепция интерфейса онлайн-журнала. Редакционная типографика и многослойная композиция для статей, подборок и новых идей.</p>
+                <ul class="portfolio-tags" aria-label="Идеи проекта Слой"><li>UI-дизайн</li><li>Карточки статей</li><li>Чтение</li></ul>
+                <a class="portfolio-project-link" href="./contact.html" aria-label="Обсудить похожий проект: Слой">Обсудить похожий проект <span class="arrow" aria-hidden="true"></span></a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="section cta-section" aria-labelledby="cta-title">
+        <div class="container cta-panel">
+          <div>
+            <p class="eyebrow">От концепции к вашей задаче</p>
+            <h2 id="cta-title">Вдохновились?<br>Обсудим вашу идею.</h2>
+          </div>
+          <div>
+            <p>Расскажите, что вам близко в этих концепциях. Подберём направление для вашего проекта.</p>
+            <a href="./contact.html" class="button button-light">Обсудить проект <span class="arrow" aria-hidden="true"></span></a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-top">
+        <a class="brand" href="./index.html"><span class="brand-dot" aria-hidden="true"></span>точка</a>
+        <p>Осмысленный дизайн. Чистый код.</p>
+        <nav class="footer-links" aria-label="Ссылки в подвале">
+          <a href="./portfolio.html" aria-current="page">Портфолио</a>
+          <a href="./contact.html" class="text-link">Начнём с разговора <span class="arrow" aria-hidden="true"></span></a>
+        </nav>
+      </div>
+      <div class="container footer-bottom">
+        <p>© <span data-year>2026</span> Точка · Учебный проект веб-студии</p>
+        <p>С вниманием к каждой детали</p><a href="#top">Наверх ↑</a>
+      </div>
+    </footer>
+  </body>
+</html>
