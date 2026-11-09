@@ -73,6 +73,65 @@ if (portfolio) {
   filters.hidden = false;
 }
 
+// Журнал: категория и все слова запроса должны совпасть одновременно.
+const blog = document.querySelector('[data-blog]');
+if (blog) {
+  const controls = blog.querySelector('#blog-controls');
+  const search = controls.querySelector('#blog-search');
+  const buttons = [...controls.querySelectorAll('[data-blog-filter]')];
+  const status = blog.querySelector('#blog-status');
+  const empty = blog.querySelector('#blog-empty');
+  let category = 'all';
+
+  function normalizeBlogText(text) {
+    return text.toLocaleLowerCase('ru-RU').replace(/ё/g, 'е').trim().replace(/\s+/g, ' ');
+  }
+
+  // Текст берётся прямо из карточек: нет второго списка статей в JavaScript.
+  const entries = [...blog.querySelectorAll('[data-blog-category]')].map((card) => ({
+    card,
+    category: card.dataset.blogCategory,
+    text: normalizeBlogText(`${card.querySelector('.journal-card-title').textContent} ${card.querySelector('.journal-card-description').textContent}`),
+  }));
+
+  function filterArticles() {
+    const terms = normalizeBlogText(search.value).split(' ').filter(Boolean);
+    let found = 0;
+    entries.forEach((entry) => {
+      const matchesCategory = category === 'all' || entry.category === category;
+      const matchesSearch = terms.every((term) => entry.text.includes(term));
+      entry.card.hidden = !(matchesCategory && matchesSearch);
+      if (!entry.card.hidden) found += 1;
+    });
+    buttons.forEach((button) => {
+      button.setAttribute('aria-pressed', String(button.dataset.blogFilter === category));
+    });
+    empty.hidden = found !== 0;
+    status.textContent = `Найдено статей: ${found} из ${entries.length}.`;
+  }
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      category = button.dataset.blogFilter;
+      filterArticles();
+    });
+  });
+  search.addEventListener('input', filterArticles);
+  // Enter в поиске не отправляет форму и не перезагружает страницу.
+  controls.addEventListener('submit', (event) => {
+    event.preventDefault();
+    filterArticles();
+  });
+  controls.addEventListener('reset', () => {
+    window.setTimeout(() => {
+      category = 'all';
+      filterArticles();
+    }, 0);
+  });
+  filterArticles();
+  controls.hidden = false;
+}
+
 // Учебные цены калькулятора. Суммы считаются в рублях, без округлений.
 const PROJECT_PRICES = {
   landing: { name: 'Лендинг', price: 35000 },
