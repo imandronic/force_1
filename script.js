@@ -183,6 +183,7 @@ if (calculatorForm) {
   const breakdown = document.querySelector('#estimate-breakdown');
   const total = document.querySelector('#estimate-total');
   const discussLink = document.querySelector('#discuss-estimate');
+  const bookButtons = [...calculatorForm.querySelectorAll('[data-book-step]')];
   const updateBook = createPageBook(calculatorForm.querySelector('[data-page-book]'), Number(pageCount.value));
 
   function updateEstimate(animateBook = true) {
@@ -193,6 +194,11 @@ if (calculatorForm) {
 
     pageCountOutput.value = String(estimate.pageCount);
     updateBook(estimate.pageCount, animateBook);
+    bookButtons.forEach((button) => {
+      button.disabled = Number(button.dataset.bookStep) < 0
+        ? estimate.pageCount <= Number(pageCount.min)
+        : estimate.pageCount >= Number(pageCount.max);
+    });
     total.value = rubles.format(estimate.total);
     const rows = estimateLineItems(estimate).map((item) => {
       const row = document.createElement('div');
@@ -212,6 +218,13 @@ if (calculatorForm) {
     discussLink.setAttribute('href', `./contact.html?${params.toString()}`);
   }
 
+  // Кнопки книги меняют тот же ползунок: единый расчёт, анимация и ссылка.
+  bookButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      pageCount.stepUp(Number(button.dataset.bookStep));
+      pageCount.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+  });
   calculatorForm.addEventListener('input', () => updateEstimate());
   calculatorForm.addEventListener('change', () => updateEstimate());
   calculatorForm.addEventListener('submit', (event) => event.preventDefault());
