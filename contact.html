@@ -25,6 +25,7 @@
           <a href="./index.html">Главная</a>
           <a href="./services.html">Услуги</a>
           <a href="./portfolio.html">Портфолио</a>
+          <a href="./calculator.html">Калькулятор</a>
           <a href="./about.html">О нас</a>
           <a href="./contact.html" aria-current="page">Контакты</a>
         </nav>
@@ -53,12 +54,14 @@
             <div class="contact-tip"><span aria-hidden="true">＋</span>
               <p>Будет полезно указать цель сайта, желаемые сроки и примерный бюджет.</p>
             </div>
+            <a class="text-link contact-calculator-link" href="./calculator.html">Сначала рассчитать стоимость <span class="arrow" aria-hidden="true"></span></a>
           </aside>
           <div class="form-panel">
             <h2 id="contact-form-title">Расскажите о проекте</h2>
             <p class="form-intro">Поля со звёздочкой обязательны.</p>
             <!-- Идентификатор Formspree. script.js подставляет адрес отправки в action. -->
             <form id="contact-form" method="post" data-formspree-id="mbggbnwq" aria-describedby="form-note">
+              <p id="estimate-prefill-note" class="estimate-prefill-note" hidden>Расчёт добавлен из калькулятора. Проверьте и дополните сообщение. Оно отправится только после нажатия кнопки «Отправить».</p>
               <div class="form-row">
                 <div class="field">
                   <label for="name">Имя <span aria-hidden="true">*</span></label>
@@ -71,7 +74,7 @@
               </div>
               <div class="field">
                 <label for="message">Сообщение <span aria-hidden="true">*</span></label>
-                <textarea id="message" name="message" rows="6" required maxlength="5000" placeholder="Что вы хотите создать? Расскажите о своей идее."></textarea>
+                <textarea id="message" name="message" rows="6" aria-describedby="estimate-prefill-note" required maxlength="5000" placeholder="Что вы хотите создать? Расскажите о своей идее."></textarea>
               </div>
               <p id="form-note" class="form-note">При отправке имя, email и сообщение будут переданы сервису Formspree для обработки заявки. Подтверждение отправки покажет сам сервис.</p>
               <button class="button button-dark" type="submit" disabled>Отправить <span class="arrow" aria-hidden="true"></span></button>
@@ -112,6 +115,7 @@
         <p>Осмысленный дизайн. Чистый код.</p>
         <nav class="footer-links" aria-label="Ссылки в подвале">
           <a href="./portfolio.html">Портфолио</a>
+          <a href="./calculator.html">Калькулятор</a>
           <a href="./contact.html" class="text-link">Начнём с разговора <span class="arrow" aria-hidden="true"></span></a>
         </nav>
       </div>
