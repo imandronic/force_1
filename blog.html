@@ -12,13 +12,13 @@
     <meta property="og:description" content="Практические статьи журнала Точка: выбор типа сайта, удобный дизайн и первые шаги с Codex и GitHub. Поиск по статьям и категории.">
     <title>Журнал Точка — разработка, дизайн и обучение</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="./styles.css?v=20261109-overlay">
-    <script src="./script.js?v=20261109-overlay" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=20261109-liquid">
+    <script src="./script.js?v=20261109-liquid" defer></script>
   </head>
   <body id="top">
     <a class="skip-link" href="#main">Перейти к содержимому</a>
     <header class="site-header">
-      <div class="container header-inner">
+      <div class="container header-inner glass-panel">
         <a class="brand" href="./index.html" aria-label="Точка — на главную"><span class="brand-dot" aria-hidden="true"></span>точка<span class="brand-caption">веб-студия</span></a>
         <button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" hidden><span class="menu-icon" aria-hidden="true"></span><span class="menu-label">Меню</span></button>
         <nav id="main-nav" class="main-nav" aria-label="Главное меню">
@@ -46,7 +46,7 @@
         <div class="container">
           <h2 id="journal-title" class="sr-only">Статьи журнала</h2>
           <!-- Без JavaScript все карточки видны, а элементы поиска скрыты. -->
-          <form id="blog-controls" class="journal-controls" role="search" aria-label="Поиск и категории статей" hidden>
+          <form id="blog-controls" class="journal-controls glass-panel glass-dense" role="search" aria-label="Поиск и категории статей" hidden>
             <div class="journal-search-row">
               <div class="journal-search-field">
                 <label for="blog-search">Поиск по заголовкам и описаниям</label>
@@ -65,7 +65,7 @@
           <noscript><p class="journal-fallback">Все статьи доступны ниже. Для поиска и выбора категории включите JavaScript.</p></noscript>
           <p id="blog-status" class="journal-status" role="status" aria-live="polite" aria-atomic="true">Найдено статей: 3 из 3.</p>
           <div id="blog-grid" class="journal-grid">
-            <article class="journal-card" data-blog-category="development">
+            <article class="journal-card glass-panel" data-blog-category="development">
               <div class="journal-art journal-art-development" aria-hidden="true"><span>Точка / Разработка</span><strong>Сначала задача.<br>Потом — сайт.</strong><i></i></div>
               <div class="journal-card-body">
                 <span class="journal-category">Разработка</span>
@@ -74,7 +74,7 @@
                 <a class="journal-read-link" href="./articles/choosing-website.html" aria-label="Читать статью: Как выбрать тип сайта для бизнеса">Читать статью <span class="arrow" aria-hidden="true"></span></a>
               </div>
             </article>
-            <article class="journal-card" data-blog-category="design">
+            <article class="journal-card glass-panel" data-blog-category="design">
               <div class="journal-art journal-art-design" aria-hidden="true"><span>Точка / Дизайн</span><strong>Красиво.<br>Понятно. Удобно.</strong><i></i></div>
               <div class="journal-card-body">
                 <span class="journal-category">Дизайн</span>
@@ -83,7 +83,7 @@
                 <a class="journal-read-link" href="./articles/usable-design.html" aria-label="Читать статью: Что делает дизайн сайта удобным">Читать статью <span class="arrow" aria-hidden="true"></span></a>
               </div>
             </article>
-            <article class="journal-card" data-blog-category="learning">
+            <article class="journal-card glass-panel" data-blog-category="learning">
               <div class="journal-art journal-art-learning" aria-hidden="true"><span>Точка / Обучение</span><strong>Первая идея.<br>Первый коммит.</strong><i></i></div>
               <div class="journal-card-body">
                 <span class="journal-category">Обучение</span>
