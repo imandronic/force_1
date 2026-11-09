@@ -41,6 +41,19 @@ document.querySelectorAll('[data-year]').forEach((element) => {
   element.textContent = new Date().getFullYear();
 });
 
+// Для старых браузеров без нативной группы details[name].
+// Раскрытие и клавиатура остаются нативными, без перехвата нажатий summary.
+if (!('name' in document.createElement('details'))) {
+  const serviceDetails = [...document.querySelectorAll('.service-details')];
+  serviceDetails.forEach((details) => {
+    details.addEventListener('toggle', () => {
+      if (details.open) serviceDetails.forEach((other) => {
+        if (other !== details) other.open = false;
+      });
+    });
+  });
+}
+
 // Фильтры работают только на странице портфолио; остальные страницы не затрагиваются.
 const portfolio = document.querySelector('[data-portfolio]');
 if (portfolio) {

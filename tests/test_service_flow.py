@@ -323,6 +323,69 @@ class ServiceFlowTests(unittest.TestCase):
         self.page.get_by_role("button", name="Сбросить выбор").click()
         self.assert_initial("design")
 
+    def test_service_accordion_exclusivity_and_card_heights(self):
+        for width in (*WIDTHS, 1440):
+            with self.subTest(width=width):
+                self.page.set_viewport_size({"width": width, "height": 1000})
+                self.open("services.html")
+                heights = self.page.locator(".service-card").evaluate_all(
+                    "els=>els.map(el=>el.getBoundingClientRect().height)"
+                )
+                for index in range(6):
+                    details = self.page.locator(".service-details").nth(index)
+                    summary = details.locator("summary")
+                    if index % 2:
+                        summary.focus()
+                        self.page.keyboard.press("Enter")
+                    else:
+                        summary.click()
+                    expect(self.page.locator(".service-details[open]")).to_have_count(1)
+                    self.assertTrue(details.evaluate("el=>el.open"))
+                    # A neighbouring card must keep its original closed height.
+                    self.page.wait_for_function("""heights=>[...document.querySelectorAll('.service-card')].every(
+                        (card,index)=>card.querySelector('details').open || Math.abs(card.getBoundingClientRect().height-heights[index])<1
+                    )""", arg=heights)
+                self.page.keyboard.press("Space")
+                expect(self.page.locator(".service-details[open]")).to_have_count(0)
+                self.assertTrue(summary.evaluate("el=>el===document.activeElement"))
+                self.assertTrue(self.page.evaluate("document.documentElement.scrollWidth<=innerWidth"))
+        # Rapid changes settle on the last requested panel without multiple open items.
+        self.page.locator(".services-grid").evaluate("""grid=>{
+            const buttons=grid.querySelectorAll('.service-details summary');
+            for(const index of [0,1,2,1,0,0,5]) buttons[index].click();
+        }""")
+        expect(self.page.locator(".service-details[open]")).to_have_count(1)
+        self.assertTrue(self.page.locator(".service-details").nth(5).evaluate("el=>el.open"))
+
+    def test_service_accordion_smooth_motion_and_reduced_motion(self):
+        self.page.emulate_media(reduced_motion="no-preference")
+        self.open("services.html")
+        details = self.page.locator(".service-details").first
+        details.locator("summary").scroll_into_view_if_needed()
+        # Read real layout on animation frames, including intermediate heights.
+        sample = """async el=>{
+            const samples=[el.getBoundingClientRect().height];
+            el.querySelector('summary').click();
+            const until=performance.now()+400;
+            while(performance.now()<until){
+                await new Promise(requestAnimationFrame);
+                samples.push(el.getBoundingClientRect().height);
+            }
+            return samples;
+        }"""
+        opening = details.evaluate(sample)
+        self.assertGreater(opening[-1], opening[0] + 100)
+        self.assertTrue(any(opening[0] + 3 < value < opening[-1] - 3 for value in opening))
+        closing = details.evaluate(sample)
+        self.assertLess(closing[-1], closing[0] - 100)
+        self.assertTrue(any(closing[-1] + 3 < value < closing[0] - 3 for value in closing))
+        self.page.emulate_media(reduced_motion="reduce")
+        self.assertEqual(details.evaluate("el=>getComputedStyle(el,'::details-content').transitionDuration"), "0s")
+        details.locator("summary").click()
+        expect(details).to_have_attribute("open", "")
+        # No CSS transition remains when motion is reduced.
+        self.assertEqual(details.evaluate("el=>getComputedStyle(el,'::details-content').transitionProperty"), "none")
+
     def test_no_javascript_fallback(self):
         plain = self.browser.new_context(java_script_enabled=False, viewport={"width": 375, "height": 1000})
         plain.route("**/*", self.local_only)
@@ -333,12 +396,22 @@ class ServiceFlowTests(unittest.TestCase):
             expect(page.locator(".service-details")).to_have_count(6)
             page.locator(".service-details summary").first.click()
             self.assertTrue(page.locator(".service-details").first.evaluate("el=>el.open"))
-            page.locator('.service-action[href="./calculator.html?project=corporate"]').click()
+            # Native keyboard navigation also works when page scripts are disabled.
+            page.locator(".service-details summary").nth(1).focus()
+            page.keyboard.press("Enter")
+            expect(page.locator(".service-details[open]")).to_have_count(1)
+            self.assertFalse(page.locator(".service-details").first.evaluate("el=>el.open"))
+            page.keyboard.press("Tab")
+            expect(page.locator('.service-action[href="./calculator.html?project=corporate"]')).to_be_focused()
+            page.keyboard.press("Enter")
+            page.wait_for_url(self.base + "calculator.html?project=corporate")
             expect(page.locator("#page-count")).to_be_disabled()
             expect(page.locator("#project-landing")).to_be_checked()
             self.assertIn("включите JavaScript", page.locator("noscript").inner_text())
             page.goto(self.base + "services.html")
-            page.locator('.service-action[href="./contact.html?service=support"]').click()
+            page.locator('.service-action[href="./contact.html?service=support"]').focus()
+            page.keyboard.press("Enter")
+            page.wait_for_url(self.base + "contact.html?service=support")
             expect(page.locator("#message")).to_have_value("")
             expect(page.get_by_role("button", name="Отправить", exact=True)).to_be_disabled()
         finally:

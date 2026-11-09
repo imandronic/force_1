@@ -159,7 +159,7 @@ input:focus-visible, textarea:focus-visible { outline-offset: 2px; }
 .intro-bottom p { font-size: var(--font-body); color: var(--muted); margin: 0; max-width: 740px; }
 .small-label { font-size: var(--font-caption); color: var(--muted); }
 .services-section { padding-block: 45px 65px; }
-.services-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+.services-grid { display: grid; align-items: start; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
 .service-card { display: flex; flex-direction: column; padding: var(--space-6); border: 1px solid var(--line); border-radius: var(--radius); background: white; }
 .service-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 36px; }
 .service-icon { display: inline-grid; place-content: center; width: 40px; height: 40px; background: #f6eee7; color: var(--accent); border-radius: 9px; font: 21px/1.1 monospace; }
@@ -179,6 +179,18 @@ input:focus-visible, textarea:focus-visible { outline-offset: 2px; }
 .service-details summary { min-height: 52px; padding-block: var(--space-4); font-size: var(--font-ui); gap: var(--space-3); }
 .service-details summary:hover { color: var(--accent); }
 .service-detail-content { padding-bottom: var(--space-2); }
+/* Нативная группа details допускает одну открытую услугу.
+   Сетка анимирует реальную высоту без фиксированного max-height. */
+@supports selector(details::details-content) {
+  .service-details::details-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows var(--motion-duration) var(--motion-ease), opacity var(--motion-duration) var(--motion-ease), content-visibility var(--motion-duration) allow-discrete;
+  }
+  .service-details[open]::details-content { grid-template-rows: 1fr; opacity: 1; }
+  .service-detail-content { min-height: 0; overflow: hidden; padding-bottom: 0; }
+}
 .service-detail-content h3 { font-size: 16px; line-height: 1.4; letter-spacing: 0; margin: var(--space-4) 0 var(--space-2); }
 .service-detail-content ul { padding-left: 20px; margin: 0 0 var(--space-4); color: var(--muted); font-size: 15px; }
 .service-detail-content li { margin-bottom: var(--space-2); }
@@ -660,6 +672,7 @@ input:focus-visible, textarea:focus-visible { border-color: var(--accent); backg
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .service-details::details-content { transition: none !important; }
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .button:hover, .feature-card:hover, .service-card:hover, .portfolio-card:hover, .journal-card:hover, .article-related-card:hover { transform: none; }
 }
