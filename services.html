@@ -12,8 +12,8 @@
     <meta property="og:description" content="Лендинги, корпоративные сайты, дизайн, адаптивная вёрстка, редизайн и поддержка. Шесть услуг с ориентировочными ценами.">
     <title>Услуги и цены — Точка, веб-студия</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="./styles.css?v=20261109-ui">
-    <script src="./script.js?v=20261109-ui" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=20261109-flow">
+    <script src="./script.js?v=20261109-flow" defer></script>
   </head>
   <body id="top">
     <a class="skip-link" href="#main">Перейти к содержимому</a>
@@ -40,6 +40,15 @@
         <div class="intro-bottom">
           <p>Соединяем смысл, дизайн и технологию.<br>Выберите, с чего начнётся ваш проект.</p><span class="small-label">06 направлений · Один внимательный подход</span>
         </div>
+        <div class="service-journey">
+          <h2 class="sr-only">От выбора услуги к заявке</h2>
+          <ol class="service-journey-steps">
+            <li><span class="service-journey-number" aria-hidden="true">01</span><span>Выберите услугу</span><span class="service-journey-arrow" aria-hidden="true">→</span></li>
+            <li><span class="service-journey-number" aria-hidden="true">02</span><span>Рассчитайте бюджет</span><span class="service-journey-arrow" aria-hidden="true">→</span></li>
+            <li><span class="service-journey-number" aria-hidden="true">03</span><span>Отправьте заявку</span></li>
+          </ol>
+          <p>Для разовых проектов — предварительный расчёт. Для ежемесячной поддержки — сразу обсуждение задач. Отправка заявки доступна на странице контактов после проверки сообщения.</p>
+        </div>
       </section>
       <section class="section services-section" aria-labelledby="services-list-title">
         <div class="container">
@@ -51,8 +60,23 @@
               <h2>Лендинг</h2>
               <p>Одна цель — одна выразительная страница. Для запуска продукта, события или новой услуги.</p>
               <p class="service-includes">Структура · Дизайн · Адаптивная вёрстка</p>
-              <div class="service-bottom"><strong>от 35 000 ₽</strong><a href="./contact.html" aria-label="Обсудить услугу: Лендинг"><span class="arrow" aria-hidden="true"></span></a>
-              </div>
+              <details class="service-details">
+                <summary>Подробнее об услуге<span class="sr-only"> «Лендинг»</span><span aria-hidden="true">＋</span></summary>
+                <div class="service-detail-content">
+                  <h3>Что входит в работу</h3>
+                  <ul>
+                    <li>Структура одной страницы под одну задачу и последовательность смысловых блоков.</li>
+                    <li>Дизайн, адаптивная вёрстка и базовая интерактивность.</li>
+                    <li>Проверка ссылок, отображения на разных экранах и передача файлов.</li>
+                  </ul>
+                  <h3>Кому подходит</h3>
+                  <p>Для запуска продукта, события или отдельной услуги, когда важно понятно объяснить предложение и показать следующий шаг.</p>
+                  <h3>Что вы получите</h3>
+                  <p>Готовая одностраничная основа для презентации предложения. Подключение формы и другие дополнительные функции можно учесть в калькуляторе.</p>
+                </div>
+              </details>
+              <div class="service-bottom"><strong>от 35 000 ₽</strong><span class="service-billing">Разовый проект</span></div>
+              <a class="button button-dark service-action" href="./calculator.html?project=landing" aria-label="Рассчитать стоимость: Лендинг">Рассчитать стоимость <span class="arrow" aria-hidden="true"></span></a>
             </article>
             <article class="service-card">
               <div class="service-top"><span class="card-number">02 / Услуга</span><span class="service-icon" aria-hidden="true">＋</span>
@@ -60,8 +84,23 @@
               <h2>Корпоративный сайт</h2>
               <p>Многостраничный сайт, который знакомит с компанией, её услугами и подходом к работе.</p>
               <p class="service-includes">Навигация · Страницы услуг · Контакты</p>
-              <div class="service-bottom"><strong>от 80 000 ₽</strong><a href="./contact.html" aria-label="Обсудить услугу: Корпоративный сайт"><span class="arrow" aria-hidden="true"></span></a>
-              </div>
+              <details class="service-details">
+                <summary>Подробнее об услуге<span class="sr-only"> «Корпоративный сайт»</span><span aria-hidden="true">＋</span></summary>
+                <div class="service-detail-content">
+                  <h3>Что входит в работу</h3>
+                  <ul>
+                    <li>Структура разделов о компании, услугах и способах связи.</li>
+                    <li>Единый дизайн страниц, навигация и адаптивная вёрстка.</li>
+                    <li>Проверка переходов между разделами и передача файлов сайта.</li>
+                  </ul>
+                  <h3>Кому подходит</h3>
+                  <p>Компаниям с несколькими направлениями работы, которым нужны отдельные страницы для услуг, команды или проектов.</p>
+                  <h3>Что вы получите</h3>
+                  <p>Согласованный многостраничный сайт с понятной навигацией. Количество страниц и дополнительные функции выбираются при расчёте.</p>
+                </div>
+              </details>
+              <div class="service-bottom"><strong>от 80 000 ₽</strong><span class="service-billing">Разовый проект</span></div>
+              <a class="button button-dark service-action" href="./calculator.html?project=corporate" aria-label="Рассчитать стоимость: Корпоративный сайт">Рассчитать стоимость <span class="arrow" aria-hidden="true"></span></a>
             </article>
             <article class="service-card">
               <div class="service-top"><span class="card-number">03 / Услуга</span><span class="service-icon" aria-hidden="true">Aa</span>
@@ -69,8 +108,23 @@
               <h2>Дизайн интерфейса</h2>
               <p>Продуманная визуальная система: от первого прототипа до макетов основных экранов.</p>
               <p class="service-includes">Прототип · UI-дизайн · Передача макетов</p>
-              <div class="service-bottom"><strong>от 30 000 ₽</strong><a href="./contact.html" aria-label="Обсудить услугу: Дизайн интерфейса"><span class="arrow" aria-hidden="true"></span></a>
-              </div>
+              <details class="service-details">
+                <summary>Подробнее об услуге<span class="sr-only"> «Дизайн интерфейса»</span><span aria-hidden="true">＋</span></summary>
+                <div class="service-detail-content">
+                  <h3>Что входит в работу</h3>
+                  <ul>
+                    <li>Разбор задач пользователя и прототип основных экранов.</li>
+                    <li>Визуальная система: типографика, цвета, компоненты и состояния элементов.</li>
+                    <li>Макеты для разных экранов и пояснения для разработчика.</li>
+                  </ul>
+                  <h3>Кому подходит</h3>
+                  <p>Для нового продукта или сайта, когда сначала нужно согласовать структуру и внешний вид перед разработкой.</p>
+                  <h3>Что вы получите</h3>
+                  <p>Комплект согласованных макетов и компонентов для передачи в разработку. Программирование и готовый работающий сайт в эту услугу не входят.</p>
+                </div>
+              </details>
+              <div class="service-bottom"><strong>от 30 000 ₽</strong><span class="service-billing">Разовый проект</span></div>
+              <a class="button button-dark service-action" href="./calculator.html?project=design" aria-label="Рассчитать стоимость: Дизайн интерфейса">Рассчитать стоимость <span class="arrow" aria-hidden="true"></span></a>
             </article>
             <article class="service-card">
               <div class="service-top"><span class="card-number">04 / Услуга</span><span class="service-icon" aria-hidden="true">&lt;/&gt;</span>
@@ -78,8 +132,23 @@
               <h2>Адаптивная вёрстка</h2>
               <p>Превращаем готовый дизайн в удобные страницы для компьютеров, планшетов и телефонов.</p>
               <p class="service-includes">HTML · CSS · JavaScript</p>
-              <div class="service-bottom"><strong>от 25 000 ₽</strong><a href="./contact.html" aria-label="Обсудить услугу: Адаптивная вёрстка"><span class="arrow" aria-hidden="true"></span></a>
-              </div>
+              <details class="service-details">
+                <summary>Подробнее об услуге<span class="sr-only"> «Адаптивная вёрстка»</span><span aria-hidden="true">＋</span></summary>
+                <div class="service-detail-content">
+                  <h3>Что входит в работу</h3>
+                  <ul>
+                    <li>Разбор готовых макетов и перенос дизайна в HTML и CSS.</li>
+                    <li>Адаптация под телефон, планшет и компьютер, базовые JavaScript-сценарии.</li>
+                    <li>Проверка клавиатурной навигации, ссылок и отображения страниц.</li>
+                  </ul>
+                  <h3>Кому подходит</h3>
+                  <p>Тем, у кого уже есть дизайн и требуется превратить его в страницы, доступные в браузере.</p>
+                  <h3>Что вы получите</h3>
+                  <p>Файлы интерфейса на HTML, CSS и JavaScript по согласованным макетам. Серверные интеграции и новые макеты обсуждаются отдельно.</p>
+                </div>
+              </details>
+              <div class="service-bottom"><strong>от 25 000 ₽</strong><span class="service-billing">Разовый проект</span></div>
+              <a class="button button-dark service-action" href="./calculator.html?project=layout" aria-label="Рассчитать стоимость: Адаптивная вёрстка">Рассчитать стоимость <span class="arrow" aria-hidden="true"></span></a>
             </article>
             <article class="service-card">
               <div class="service-top"><span class="card-number">05 / Услуга</span><span class="service-icon" aria-hidden="true">◒</span>
@@ -87,8 +156,23 @@
               <h2>Редизайн сайта</h2>
               <p>Помогаем существующему сайту стать понятнее: обновляем структуру, внешний вид и сценарии.</p>
               <p class="service-includes">Разбор сайта · Новая структура · Дизайн</p>
-              <div class="service-bottom"><strong>от 45 000 ₽</strong><a href="./contact.html" aria-label="Обсудить услугу: Редизайн сайта"><span class="arrow" aria-hidden="true"></span></a>
-              </div>
+              <details class="service-details">
+                <summary>Подробнее об услуге<span class="sr-only"> «Редизайн сайта»</span><span aria-hidden="true">＋</span></summary>
+                <div class="service-detail-content">
+                  <h3>Что входит в работу</h3>
+                  <ul>
+                    <li>Разбор существующей структуры, контента и пользовательских сценариев.</li>
+                    <li>Предложения по навигации, иерархии текста и обновлению визуального стиля.</li>
+                    <li>Новые макеты ключевых страниц с пояснениями по внедрению.</li>
+                  </ul>
+                  <h3>Кому подходит</h3>
+                  <p>Для сайта, который сложно читать, неудобно использовать на телефоне или нужно привести к обновлённому стилю компании.</p>
+                  <h3>Что вы получите</h3>
+                  <p>План изменений и обновлённые макеты. Объём последующей вёрстки и переноса контента согласуется отдельно; расчёт служит предварительным ориентиром.</p>
+                </div>
+              </details>
+              <div class="service-bottom"><strong>от 45 000 ₽</strong><span class="service-billing">Разовый проект</span></div>
+              <a class="button button-dark service-action" href="./calculator.html?project=redesign" aria-label="Рассчитать стоимость: Редизайн сайта">Рассчитать стоимость <span class="arrow" aria-hidden="true"></span></a>
             </article>
             <article class="service-card">
               <div class="service-top"><span class="card-number">06 / Услуга</span><span class="service-icon" aria-hidden="true">＋</span>
@@ -96,11 +180,26 @@
               <h2>Поддержка и развитие</h2>
               <p>Обновляем контент, исправляем ошибки и постепенно улучшаем уже работающий сайт.</p>
               <p class="service-includes">Обновления · Исправления · Улучшения</p>
-              <div class="service-bottom"><strong>от 8 000 ₽ / мес.</strong><a href="./contact.html" aria-label="Обсудить услугу: Поддержка и развитие"><span class="arrow" aria-hidden="true"></span></a>
-              </div>
+              <details class="service-details">
+                <summary>Подробнее об услуге<span class="sr-only"> «Поддержка и развитие»</span><span aria-hidden="true">＋</span></summary>
+                <div class="service-detail-content">
+                  <h3>Что входит в работу</h3>
+                  <ul>
+                    <li>Согласованный ежемесячный список задач и порядок их выполнения.</li>
+                    <li>Обновление контента, исправление ошибок и небольшие улучшения интерфейса.</li>
+                    <li>Краткое описание выполненных изменений и обсуждение следующего периода.</li>
+                  </ul>
+                  <h3>Кому подходит</h3>
+                  <p>Владельцам уже работающего сайта, которым регулярно нужны небольшие изменения и помощь с его развитием.</p>
+                  <h3>Что вы получите</h3>
+                  <p>Выполненные задачи в пределах согласованного месячного объёма. Ориентир — от 8 000 ₽ в месяц; сроки реакции, лимиты работ и крупные доработки обсуждаются отдельно.</p>
+                </div>
+              </details>
+              <div class="service-bottom"><strong>от 8 000 ₽ / мес.</strong></div>
+              <a class="button button-dark service-action" href="./contact.html?service=support" aria-label="Обсудить поддержку: Поддержка и развитие">Обсудить поддержку <span class="arrow" aria-hidden="true"></span></a>
             </article>
           </div>
-          <p class="price-note">Цены ориентировочные и приведены для примера. Итоговая стоимость и сроки зависят от объёма страниц, материалов и сложности проекта. Уточняем их до начала работ.</p>
+          <p class="price-note">Цены ориентировочные и приведены для примера. Итоговая стоимость и сроки зависят от объёма страниц, материалов и сложности проекта. Уточняем их до начала работ. Поддержка оплачивается ежемесячно — от 8 000 ₽ в месяц; её объём обсуждаем отдельно от разовых проектов.</p>
           <div class="calculator-promo">
             <div>
               <p class="eyebrow">Быстрый ориентир</p>

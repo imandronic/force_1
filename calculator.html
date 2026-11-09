@@ -12,8 +12,8 @@
     <meta property="og:description" content="Учебный калькулятор стоимости сайта: тип проекта, количество страниц, дополнительные опции и подробный расчёт.">
     <title>Калькулятор стоимости сайта — Точка, веб-студия</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="./styles.css?v=20261109-ui">
-    <script src="./script.js?v=20261109-ui" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=20261109-flow">
+    <script src="./script.js?v=20261109-flow" defer></script>
   </head>
   <body id="top">
     <a class="skip-link" href="#main">Перейти к содержимому</a>
@@ -126,7 +126,8 @@
                     </label>
                   </div>
                 </fieldset>
-                <button class="calculator-reset" type="reset">Сбросить выбор <span aria-hidden="true">↺</span></button>
+                <button class="calculator-reset" type="reset" aria-describedby="calculator-reset-help">Сбросить выбор <span aria-hidden="true">↺</span></button>
+                <p id="calculator-reset-help" class="calculator-step-note">Сброс вернёт услугу, с которой вы открыли калькулятор, одну страницу и отключит дополнительные опции.</p>
               </fieldset>
             </form>
             <aside class="calculator-summary" aria-labelledby="estimate-title">

@@ -165,11 +165,30 @@ input:focus-visible, textarea:focus-visible { outline-offset: 2px; }
 .service-icon { display: inline-grid; place-content: center; width: 40px; height: 40px; background: #f6eee7; color: var(--accent); border-radius: 9px; font: 21px/1.1 monospace; }
 .service-card h2 { font-size: var(--font-card); letter-spacing: -.6px; margin-bottom: 15px; }
 .service-card > p { font-size: 16px; color: var(--muted); }
-.service-card .service-includes { font-size: var(--font-caption); margin-top: auto; margin-bottom: 20px; }
-.service-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid var(--line); padding-top: 20px; }
+.service-card .service-includes { font-size: var(--font-caption); margin-top: 0; margin-bottom: 20px; }
+.service-bottom { display: flex; flex-wrap: wrap; margin-top: auto; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid var(--line); padding-top: 20px; }
 .service-bottom strong { font-size: 22px; font-weight: 600; }
-.service-bottom a { display: inline-grid; place-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--bg); }
-.service-bottom a:hover { background: #ffdfd2; }
+/* Выбор услуги: нативные подробности и заметный следующий шаг. */
+.service-journey { margin-top: var(--space-6); padding: var(--space-5); border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }
+.service-journey-steps { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4) var(--space-5); list-style: none; padding: 0; margin: 0; }
+.service-journey-steps li { display: flex; align-items: center; gap: var(--space-3); font-size: var(--font-ui); font-weight: 600; }
+.service-journey-number { color: var(--accent); font: 12px monospace; }
+.service-journey-arrow { margin-left: var(--space-3); color: var(--muted); }
+.service-journey > p { max-width: 850px; margin: var(--space-4) 0 0; color: var(--muted); font-size: var(--font-ui); }
+.service-details { border-top: 1px solid var(--line); margin-bottom: var(--space-5); }
+.service-details summary { min-height: 52px; padding-block: var(--space-4); font-size: var(--font-ui); gap: var(--space-3); }
+.service-details summary:hover { color: var(--accent); }
+.service-detail-content { padding-bottom: var(--space-2); }
+.service-detail-content h3 { font-size: 16px; line-height: 1.4; letter-spacing: 0; margin: var(--space-4) 0 var(--space-2); }
+.service-detail-content ul { padding-left: 20px; margin: 0 0 var(--space-4); color: var(--muted); font-size: 15px; }
+.service-detail-content li { margin-bottom: var(--space-2); }
+.service-detail-content p { padding: 0; margin: 0 0 var(--space-4); color: var(--muted); font-size: 15px; }
+.service-billing { font-size: var(--font-caption); color: var(--muted); }
+.service-action { width: 100%; justify-content: space-between; gap: var(--space-3); padding-inline: var(--space-4); margin-top: var(--space-4); font-size: var(--font-ui); }
+@media (max-width: 760px) {
+  .service-journey-steps { display: grid; gap: var(--space-4); }
+  .service-journey-arrow { display: none; }
+}
 .price-note { max-width: 830px; color: var(--muted); font-size: var(--font-ui); margin-top: 25px; margin-bottom: 0; }
 .process-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px; margin: 0; padding: 0; list-style: none; }
 .process-grid li { border-top: 1px solid var(--line); padding-top: 22px; }

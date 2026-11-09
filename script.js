@@ -238,6 +238,14 @@ function createPageBook(book, initialPage) {
 
 const calculatorForm = document.querySelector('#calculator-form');
 if (calculatorForm) {
+  // Принимаем только известный тип проекта, не подставляя URL в CSS-селектор.
+  const requestedProject = new URLSearchParams(window.location.search).get('project');
+  const initialProject = Object.hasOwn(PROJECT_PRICES, requestedProject) ? requestedProject : 'landing';
+  calculatorForm.querySelectorAll('[name="project"]').forEach((input) => {
+    // defaultChecked задаёт исходный вариант для нативного form.reset().
+    input.defaultChecked = input.value === initialProject;
+    input.checked = input.defaultChecked;
+  });
   const pageCount = calculatorForm.querySelector('#page-count');
   const pageCountOutput = calculatorForm.querySelector('#page-count-output');
   const breakdown = document.querySelector('#estimate-breakdown');
@@ -328,12 +336,27 @@ function estimateMessage(estimate) {
 // ID задаётся в contact.html. До подключения данные никуда не отправляются.
 const contactForm = document.querySelector('#contact-form');
 if (contactForm) {
-  const importedEstimate = estimateFromSearch(new URLSearchParams(window.location.search));
+  const params = new URLSearchParams(window.location.search);
+  const importedEstimate = estimateFromSearch(params);
+  const supportRequested = !params.has('source') && params.get('service') === 'support';
   const message = contactForm.querySelector('[name="message"]');
   // Не перезаписываем уже введённое или восстановленное браузером сообщение.
-  if (importedEstimate && message && !message.value) {
-    message.value = estimateMessage(importedEstimate);
-    document.querySelector('#estimate-prefill-note').hidden = false;
+  if (message && !message.value) {
+    if (importedEstimate) {
+      message.value = estimateMessage(importedEstimate);
+      message.setAttribute('aria-describedby', 'estimate-prefill-note');
+      document.querySelector('#estimate-prefill-note').hidden = false;
+    } else if (supportRequested) {
+      // Это ежемесячная услуга, она не участвует в разовом расчёте.
+      message.value = [
+        'Здравствуйте! Хочу обсудить поддержку и развитие сайта.',
+        'Ориентировочный бюджет — от 8 000 ₽ в месяц. Объём работ и условия хочу согласовать отдельно.',
+        '',
+        'Сайт и задачи поддержки:',
+      ].join('\n');
+      message.setAttribute('aria-describedby', 'support-prefill-note');
+      document.querySelector('#support-prefill-note').hidden = false;
+    }
   }
 
   const formId = contactForm.dataset.formspreeId.trim();
