@@ -338,6 +338,11 @@ class ServiceFlowTests(unittest.TestCase):
                         summary.focus()
                         self.page.keyboard.press("Enter")
                     else:
+                        # On a phone the previous overlay can cover the next summary.
+                        # Dismiss it before testing a pointer click on the lower card.
+                        if index:
+                            self.page.keyboard.press("Escape")
+                            expect(self.page.locator(".service-details[open]")).to_have_count(0)
                         summary.click()
                     expect(self.page.locator(".service-details[open]")).to_have_count(1)
                     self.assertTrue(details.evaluate("el=>el.open"))
@@ -356,6 +361,73 @@ class ServiceFlowTests(unittest.TestCase):
         }""")
         expect(self.page.locator(".service-details[open]")).to_have_count(1)
         self.assertTrue(self.page.locator(".service-details").nth(5).evaluate("el=>el.open"))
+
+    def test_service_overlay_keeps_grid_positions_and_covers_lower_card(self):
+        for width in (*WIDTHS, 1440):
+            with self.subTest(width=width):
+                self.page.set_viewport_size({"width": width, "height": 1000})
+                self.open("services.html")
+                expect(self.page.locator(".services-grid.is-layered")).to_have_count(1)
+                positions = """grid=>({
+                    height:grid.getBoundingClientRect().height,
+                    cards:[...grid.querySelectorAll('.service-card-slot')].map(el=>({
+                        top:el.getBoundingClientRect().top-grid.getBoundingClientRect().top,
+                        height:el.getBoundingClientRect().height
+                    })),
+                    note:document.querySelector('.price-note').getBoundingClientRect().top-grid.getBoundingClientRect().top
+                })"""
+                grid = self.page.locator(".services-grid")
+                before = grid.evaluate(positions)
+                summary = self.page.locator(".service-details summary").first
+                summary.click()
+                expect(self.page.locator(".service-details[open]")).to_have_count(1)
+                after = grid.evaluate(positions)
+                self.assertAlmostEqual(before["height"], after["height"], delta=1)
+                self.assertAlmostEqual(before["note"], after["note"], delta=1)
+                for old, new in zip(before["cards"], after["cards"]):
+                    self.assertAlmostEqual(old["top"], new["top"], delta=1)
+                    self.assertAlmostEqual(old["height"], new["height"], delta=1)
+                first = self.page.locator(".service-card").first
+                self.assertGreater(first.bounding_box()["height"], before["cards"][0]["height"] + 100)
+                self.assertNotEqual(first.evaluate("el=>getComputedStyle(el).boxShadow"), "none")
+                columns = grid.evaluate("el=>getComputedStyle(el).gridTemplateColumns.split(' ').length")
+                lower = self.page.locator(".service-card").nth(columns)
+                lower.evaluate("el=>el.scrollIntoView({block:'center',behavior:'instant'})")
+                # Hit testing proves that the expanded card is above the next row.
+                covered_by_first = lower.evaluate("""el=>{
+                    const box=el.getBoundingClientRect();
+                    return document.elementFromPoint(box.x+box.width/2,box.y+16)?.closest('.service-card')===document.querySelector('.service-card');
+                }""")
+                self.assertTrue(covered_by_first)
+                self.page.keyboard.press("Escape")
+                expect(self.page.locator(".service-details[open]")).to_have_count(0)
+                expect(summary).to_be_focused()
+                # Tab/focus to a covered card must expose the new focus target.
+                summary.press("Enter")
+                lower.locator(".service-action").focus()
+                expect(self.page.locator(".service-details[open]")).to_have_count(0)
+                expect(lower.locator(".service-action")).to_be_focused()
+                summary.focus()
+                self.page.keyboard.press("Enter")
+                self.page.locator("h1").click()
+                expect(self.page.locator(".service-details[open]")).to_have_count(0)
+                self.assertTrue(self.page.evaluate("document.documentElement.scrollWidth<=innerWidth"))
+
+    def test_service_overlay_resizes_with_open_card(self):
+        self.open("services.html")
+        summary = self.page.locator(".service-details summary").first
+        summary.click()
+        for width in (768, 375, 1024, 1440):
+            self.page.set_viewport_size({"width": width, "height": 1000})
+            expect(self.page.locator(".service-details[open]")).to_have_count(1)
+            self.assertTrue(self.page.evaluate("document.documentElement.scrollWidth<=innerWidth"))
+            summary.press("Space")
+            expect(self.page.locator(".service-details[open]")).to_have_count(0)
+            # Compare the reserved slot to the actual card after closing at the new width.
+            self.page.wait_for_function("""()=>[...document.querySelectorAll('.service-card-slot')].every(
+                slot=>Math.abs(slot.getBoundingClientRect().height-slot.querySelector('.service-card').getBoundingClientRect().height)<=1
+            )""")
+            summary.press("Enter")
 
     def test_service_accordion_smooth_motion_and_reduced_motion(self):
         self.page.emulate_media(reduced_motion="no-preference")
