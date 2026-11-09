@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Практические статьи журнала Точка: выбор типа сайта, удобный дизайн и первые шаги с Codex и GitHub. Поиск по статьям и категории.">
+    <meta name="theme-color" content="#f6f5f1">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:site_name" content="Точка — веб-студия">
+    <meta property="og:title" content="Журнал Точка — разработка, дизайн и обучение">
+    <meta property="og:description" content="Практические статьи журнала Точка: выбор типа сайта, удобный дизайн и первые шаги с Codex и GitHub. Поиск по статьям и категории.">
+    <title>Журнал Точка — разработка, дизайн и обучение</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./script.js" defer></script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Перейти к содержимому</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="./index.html" aria-label="Точка — на главную"><span class="brand-dot" aria-hidden="true"></span>точка<span class="brand-caption">веб-студия</span></a>
+        <button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" hidden><span class="menu-icon" aria-hidden="true"></span><span class="menu-label">Меню</span></button>
+        <nav id="main-nav" class="main-nav" aria-label="Главное меню">
+          <a href="./index.html">Главная</a>
+          <a href="./services.html">Услуги</a>
+          <a href="./portfolio.html">Портфолио</a>
+          <a href="./blog.html" aria-current="page">Блог</a>
+          <a href="./calculator.html">Калькулятор</a>
+          <a href="./about.html">О нас</a>
+          <a href="./contact.html">Контакты</a>
+        </nav>
+        <a class="header-cta" href="./contact.html">Обсудить проект <span class="arrow" aria-hidden="true"></span></a>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      <section class="page-intro container" aria-labelledby="page-title">
+        <p class="eyebrow">Блог / Разбираемся вместе</p>
+        <h1 id="page-title">Журнал <span class="accent">Точка</span></h1>
+        <div class="intro-bottom">
+          <p>О сайтах, понятном дизайне и первых шагах в разработке.<br>Практические объяснения, которые можно применить к своему проекту.</p>
+          <span class="small-label">Разработка · Дизайн · Обучение</span>
+        </div>
+      </section>
+      <section class="section journal-section" aria-labelledby="journal-title" data-blog>
+        <div class="container">
+          <h2 id="journal-title" class="sr-only">Статьи журнала</h2>
+          <!-- Без JavaScript все карточки видны, а элементы поиска скрыты. -->
+          <form id="blog-controls" class="journal-controls" role="search" aria-label="Поиск и категории статей" hidden>
+            <div class="journal-search-row">
+              <div class="journal-search-field">
+                <label for="blog-search">Поиск по заголовкам и описаниям</label>
+                <input id="blog-search" name="q" type="search" placeholder="Например: тип сайта, удобство, GitHub" autocomplete="off" maxlength="100" aria-controls="blog-grid" aria-describedby="blog-search-help">
+              </div>
+              <button type="reset" class="journal-reset">Сбросить</button>
+            </div>
+            <p id="blog-search-help" class="journal-search-help">Можно сочетать поиск и категорию. Несколько слов найдутся в любом порядке.</p>
+            <div class="journal-filters" role="group" aria-label="Категория статьи">
+              <button type="button" data-blog-filter="all" aria-pressed="true" aria-controls="blog-grid">Все</button>
+              <button type="button" data-blog-filter="development" aria-pressed="false" aria-controls="blog-grid">Разработка</button>
+              <button type="button" data-blog-filter="design" aria-pressed="false" aria-controls="blog-grid">Дизайн</button>
+              <button type="button" data-blog-filter="learning" aria-pressed="false" aria-controls="blog-grid">Обучение</button>
+            </div>
+          </form>
+          <noscript><p class="journal-fallback">Все статьи доступны ниже. Для поиска и выбора категории включите JavaScript.</p></noscript>
+          <p id="blog-status" class="journal-status" role="status" aria-live="polite" aria-atomic="true">Найдено статей: 3 из 3.</p>
+          <div id="blog-grid" class="journal-grid">
+            <article class="journal-card" data-blog-category="development">
+              <div class="journal-art journal-art-development" aria-hidden="true"><span>Точка / Разработка</span><strong>Сначала задача.<br>Потом — сайт.</strong><i></i></div>
+              <div class="journal-card-body">
+                <span class="journal-category">Разработка</span>
+                <h2 class="journal-card-title">Как выбрать тип сайта для бизнеса</h2>
+                <p class="journal-card-description">Лендинг, корпоративный сайт или каталог? Разбираем задачи бизнеса, содержание страниц и выбор подходящего формата.</p>
+                <a class="journal-read-link" href="./articles/choosing-website.html" aria-label="Читать статью: Как выбрать тип сайта для бизнеса">Читать статью <span class="arrow" aria-hidden="true"></span></a>
+              </div>
+            </article>
+            <article class="journal-card" data-blog-category="design">
+              <div class="journal-art journal-art-design" aria-hidden="true"><span>Точка / Дизайн</span><strong>Красиво.<br>Понятно. Удобно.</strong><i></i></div>
+              <div class="journal-card-body">
+                <span class="journal-category">Дизайн</span>
+                <h2 class="journal-card-title">Что делает дизайн сайта удобным</h2>
+                <p class="journal-card-description">Понятная структура, читаемый текст и доступные элементы. Проверяем удобство интерфейса на экране телефона и с клавиатуры.</p>
+                <a class="journal-read-link" href="./articles/usable-design.html" aria-label="Читать статью: Что делает дизайн сайта удобным">Читать статью <span class="arrow" aria-hidden="true"></span></a>
+              </div>
+            </article>
+            <article class="journal-card" data-blog-category="learning">
+              <div class="journal-art journal-art-learning" aria-hidden="true"><span>Точка / Обучение</span><strong>Первая идея.<br>Первый коммит.</strong><i></i></div>
+              <div class="journal-card-body">
+                <span class="journal-category">Обучение</span>
+                <h2 class="journal-card-title">Как создать первый сайт с Codex и GitHub</h2>
+                <p class="journal-card-description">От небольшой задачи до проверяемого изменения: создаём HTML-страницы с Codex, знакомимся с коммитами, pull request и GitHub Pages.</p>
+                <a class="journal-read-link" href="./articles/site-with-codex.html" aria-label="Читать статью: Как создать первый сайт с Codex и GitHub">Читать статью <span class="arrow" aria-hidden="true"></span></a>
+              </div>
+            </article>
+          </div>
+          <div id="blog-empty" class="journal-empty" hidden>
+            <span aria-hidden="true">＋</span>
+            <h2>Ничего не найдено</h2>
+            <p>Попробуйте другое слово, выберите категорию «Все» или нажмите «Сбросить».</p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-top"><a class="brand" href="./index.html"><span class="brand-dot" aria-hidden="true"></span>точка</a>
+        <p>Осмысленный дизайн. Чистый код.</p>
+        <nav class="footer-links" aria-label="Ссылки в подвале">
+          <a href="./portfolio.html">Портфолио</a>
+          <a href="./blog.html" aria-current="page">Блог</a>
+          <a href="./calculator.html">Калькулятор</a>
+          <a href="./contact.html" class="text-link">Начнём с разговора <span class="arrow" aria-hidden="true"></span></a>
+        </nav>
+      </div>
+      <div class="container footer-bottom">
+        <p>© <span data-year>2026</span> Точка · Учебный проект веб-студии</p>
+        <p>С вниманием к каждой детали</p><a href="#top">Наверх ↑</a>
+      </div>
+    </footer>
+  </body>
+</html>
