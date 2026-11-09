@@ -1,7 +1,7 @@
 // Общее меню. Без JavaScript ссылки остаются открытыми.
 const menuButton = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('#main-nav');
-const mobileScreen = window.matchMedia('(max-width: 760px)');
+const mobileScreen = window.matchMedia('(max-width: 1024px)');
 
 if (menuButton && navigation) {
   function closeMenu(returnFocus = false) {
@@ -184,6 +184,7 @@ function createPageBook(book, initialPage) {
   const leaf = book.querySelector('.book-leaf');
   const leafNumber = book.querySelector('[data-book-leaf-number]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const turnDuration = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--motion-book-duration')) || 180;
   let currentPage = initialPage;
   let targetPage = initialPage;
   let animation = null;
@@ -202,7 +203,7 @@ function createPageBook(book, initialPage) {
     animation = leaf.animate([
       { transform: forward ? 'rotateY(0deg)' : 'rotateY(-180deg)' },
       { transform: forward ? 'rotateY(-180deg)' : 'rotateY(0deg)' },
-    ], { duration: 180, easing: 'cubic-bezier(.45, 0, .2, 1)', fill: 'forwards' });
+    ], { duration: turnDuration, easing: 'cubic-bezier(.45, 0, .2, 1)', fill: 'forwards' });
 
     const activeAnimation = animation;
     activeAnimation.onfinish = () => {
@@ -355,3 +356,42 @@ if (contactForm) {
     // Результат покажет сам сервис; сайт не обещает успех заранее.
   });
 }
+
+// Декоративное появление: до инициализации ничего не скрываем.
+// При отсутствии API, ошибке или reduced-motion содержимое читается сразу.
+function initSectionReveal() {
+  if (typeof window.IntersectionObserver !== 'function' || typeof Element.prototype.animate !== 'function') return;
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const activeAnimations = new Set();
+  const duration = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--motion-reveal-duration')) || 240;
+  let observer;
+  try {
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        // Не сдвигаем секцию, которую читатель уже прокрутил к верхнему краю.
+        if (motionPreference.matches || entry.boundingClientRect.top < 64) return;
+        try {
+          const animation = entry.target.animate([
+            { opacity: .85, transform: 'translateY(12px)' },
+            { opacity: 1, transform: 'translateY(0)' },
+          ], { duration, easing: 'ease-out' });
+          activeAnimations.add(animation);
+          const release = () => activeAnimations.delete(animation);
+          animation.onfinish = release;
+          animation.oncancel = release;
+        } catch {
+          // Это необязательный эффект: ошибка не меняет видимость или навигацию.
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -32px 0px' });
+    document.querySelectorAll('main > .section:not(.hero):not(.calculator-section):not(.journal-section):not(.portfolio-section):not(.contact-section) > .container').forEach((section) => observer.observe(section));
+    motionPreference.addEventListener('change', () => {
+      if (motionPreference.matches) activeAnimations.forEach((animation) => animation.cancel());
+    });
+  } catch {
+    if (observer) observer.disconnect();
+  }
+}
+initSectionReveal();
