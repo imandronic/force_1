@@ -115,6 +115,67 @@ function estimateLineItems(estimate) {
   ];
 }
 
+// Книжка перелистывает по одной странице к последнему значению ползунка.
+// Быстрые движения меняют цель, не накапливая очередь устаревших перелистываний.
+function createPageBook(book, initialPage) {
+  if (!book) return () => {};
+
+  const spread = book.querySelector('.book-spread');
+  const number = book.querySelector('[data-book-number]');
+  const leaf = book.querySelector('.book-leaf');
+  const leafNumber = book.querySelector('[data-book-leaf-number]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let currentPage = initialPage;
+  let targetPage = initialPage;
+  let animation = null;
+
+  function paintPage() {
+    number.textContent = String(currentPage).padStart(2, '0');
+    spread.dataset.bookPage = String(currentPage);
+  }
+
+  function turnNextPage() {
+    if (animation || currentPage === targetPage) return;
+    const forward = targetPage > currentPage;
+    const nextPage = currentPage + (forward ? 1 : -1);
+    leafNumber.textContent = String(forward ? currentPage : nextPage).padStart(2, '0');
+    leaf.hidden = false;
+    animation = leaf.animate([
+      { transform: forward ? 'rotateY(0deg)' : 'rotateY(-180deg)' },
+      { transform: forward ? 'rotateY(-180deg)' : 'rotateY(0deg)' },
+    ], { duration: 180, easing: 'cubic-bezier(.45, 0, .2, 1)', fill: 'forwards' });
+
+    const activeAnimation = animation;
+    activeAnimation.onfinish = () => {
+      if (animation !== activeAnimation) return;
+      animation = null;
+      leaf.hidden = true;
+      activeAnimation.cancel();
+      currentPage = nextPage;
+      paintPage();
+      turnNextPage();
+    };
+  }
+
+  function showPage(page, animate = true) {
+    targetPage = page;
+    if (!animate || reducedMotion.matches || typeof leaf.animate !== 'function') {
+      const previousAnimation = animation;
+      animation = null;
+      if (previousAnimation) previousAnimation.cancel();
+      leaf.hidden = true;
+      currentPage = targetPage;
+      paintPage();
+      return;
+    }
+    turnNextPage();
+  }
+
+  reducedMotion.addEventListener('change', () => showPage(targetPage, false));
+  paintPage();
+  return showPage;
+}
+
 const calculatorForm = document.querySelector('#calculator-form');
 if (calculatorForm) {
   const pageCount = calculatorForm.querySelector('#page-count');
@@ -122,14 +183,16 @@ if (calculatorForm) {
   const breakdown = document.querySelector('#estimate-breakdown');
   const total = document.querySelector('#estimate-total');
   const discussLink = document.querySelector('#discuss-estimate');
+  const updateBook = createPageBook(calculatorForm.querySelector('[data-page-book]'), Number(pageCount.value));
 
-  function updateEstimate() {
+  function updateEstimate(animateBook = true) {
     const projectId = calculatorForm.querySelector('[name="project"]:checked').value;
     const extras = [...calculatorForm.querySelectorAll('[name="extra"]:checked')].map((input) => input.value);
     const estimate = calculateEstimate(projectId, Number(pageCount.value), extras);
     if (!estimate) return;
 
     pageCountOutput.value = String(estimate.pageCount);
+    updateBook(estimate.pageCount, animateBook);
     total.value = rubles.format(estimate.total);
     const rows = estimateLineItems(estimate).map((item) => {
       const row = document.createElement('div');
@@ -149,12 +212,12 @@ if (calculatorForm) {
     discussLink.setAttribute('href', `./contact.html?${params.toString()}`);
   }
 
-  calculatorForm.addEventListener('input', updateEstimate);
-  calculatorForm.addEventListener('change', updateEstimate);
+  calculatorForm.addEventListener('input', () => updateEstimate());
+  calculatorForm.addEventListener('change', () => updateEstimate());
   calculatorForm.addEventListener('submit', (event) => event.preventDefault());
   // Событие reset приходит до восстановления исходных значений полей.
-  calculatorForm.addEventListener('reset', () => window.setTimeout(updateEstimate, 0));
-  updateEstimate();
+  calculatorForm.addEventListener('reset', () => window.setTimeout(() => updateEstimate(false), 0));
+  updateEstimate(false);
   calculatorForm.querySelector('#calculator-controls').disabled = false;
 }
 
