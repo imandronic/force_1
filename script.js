@@ -73,9 +73,133 @@ if (portfolio) {
   filters.hidden = false;
 }
 
+// Учебные цены калькулятора. Суммы считаются в рублях, без округлений.
+const PROJECT_PRICES = {
+  landing: { name: 'Лендинг', price: 35000 },
+  corporate: { name: 'Корпоративный сайт', price: 80000 },
+  design: { name: 'Дизайн интерфейса', price: 30000 },
+  layout: { name: 'Адаптивная вёрстка', price: 25000 },
+  redesign: { name: 'Редизайн', price: 45000 },
+};
+const EXTRA_PRICES = {
+  animations: { name: 'Анимации', price: 10000 },
+  form: { name: 'Контактная форма', price: 5000 },
+  seo: { name: 'Расширенное SEO', price: 12000 },
+};
+const ADDITIONAL_PAGE_PRICE = 5000;
+const rubles = new Intl.NumberFormat('ru-RU', {
+  style: 'currency', currency: 'RUB', maximumFractionDigits: 0,
+});
+
+function calculateEstimate(projectId, pageCount, extraIds) {
+  if (!Object.hasOwn(PROJECT_PRICES, projectId)
+    || !Number.isInteger(pageCount) || pageCount < 1 || pageCount > 15) return null;
+
+  const project = PROJECT_PRICES[projectId];
+  // Учитываем только известные опции, каждую — один раз.
+  const extras = Object.keys(EXTRA_PRICES).filter((id) => extraIds.includes(id));
+  const additionalPagesPrice = (pageCount - 1) * ADDITIONAL_PAGE_PRICE;
+  const extrasPrice = extras.reduce((sum, id) => sum + EXTRA_PRICES[id].price, 0);
+
+  return {
+    projectId, project, pageCount, extras, additionalPagesPrice,
+    total: project.price + additionalPagesPrice + extrasPrice,
+  };
+}
+
+function estimateLineItems(estimate) {
+  return [
+    { name: `${estimate.project.name} — базовая цена`, price: estimate.project.price },
+    { name: `Доп. страницы (${estimate.pageCount - 1} × ${rubles.format(ADDITIONAL_PAGE_PRICE)})`, price: estimate.additionalPagesPrice },
+    ...estimate.extras.map((id) => EXTRA_PRICES[id]),
+  ];
+}
+
+const calculatorForm = document.querySelector('#calculator-form');
+if (calculatorForm) {
+  const pageCount = calculatorForm.querySelector('#page-count');
+  const pageCountOutput = calculatorForm.querySelector('#page-count-output');
+  const breakdown = document.querySelector('#estimate-breakdown');
+  const total = document.querySelector('#estimate-total');
+  const discussLink = document.querySelector('#discuss-estimate');
+
+  function updateEstimate() {
+    const projectId = calculatorForm.querySelector('[name="project"]:checked').value;
+    const extras = [...calculatorForm.querySelectorAll('[name="extra"]:checked')].map((input) => input.value);
+    const estimate = calculateEstimate(projectId, Number(pageCount.value), extras);
+    if (!estimate) return;
+
+    pageCountOutput.value = String(estimate.pageCount);
+    total.value = rubles.format(estimate.total);
+    const rows = estimateLineItems(estimate).map((item) => {
+      const row = document.createElement('div');
+      const label = document.createElement('dt');
+      const price = document.createElement('dd');
+      label.textContent = item.name;
+      price.textContent = rubles.format(item.price);
+      row.append(label, price);
+      return row;
+    });
+    breakdown.replaceChildren(...rows);
+
+    const params = new URLSearchParams({
+      source: 'calculator', project: estimate.projectId, pages: String(estimate.pageCount),
+    });
+    estimate.extras.forEach((id) => params.set(id, '1'));
+    discussLink.setAttribute('href', `./contact.html?${params.toString()}`);
+  }
+
+  calculatorForm.addEventListener('input', updateEstimate);
+  calculatorForm.addEventListener('change', updateEstimate);
+  calculatorForm.addEventListener('submit', (event) => event.preventDefault());
+  // Событие reset приходит до восстановления исходных значений полей.
+  calculatorForm.addEventListener('reset', () => window.setTimeout(updateEstimate, 0));
+  updateEstimate();
+  calculatorForm.querySelector('#calculator-controls').disabled = false;
+}
+
+// Параметры URL могут быть изменены вручную: сначала проверяем их.
+function estimateFromSearch(params) {
+  if (params.get('source') !== 'calculator') return null;
+  const pages = params.get('pages') || '';
+  if (!/^(?:[1-9]|1[0-5])$/.test(pages)) return null;
+
+  const extras = [];
+  for (const id of Object.keys(EXTRA_PRICES)) {
+    const value = params.get(id);
+    if (value !== null && value !== '0' && value !== '1') return null;
+    if (value === '1') extras.push(id);
+  }
+  return calculateEstimate(params.get('project'), Number(pages), extras);
+}
+
+function estimateMessage(estimate) {
+  return [
+    'Здравствуйте! Хочу обсудить проект по расчёту из калькулятора.',
+    `Тип проекта: ${estimate.project.name}.`,
+    `Количество страниц: ${estimate.pageCount}.`,
+    '',
+    'Расшифровка:',
+    ...estimateLineItems(estimate).map((item) => `${item.name}: ${rubles.format(item.price)}.`),
+    ...(estimate.extras.length === 0 ? ['Дополнительные опции: не выбраны.'] : []),
+    `Ориентировочная стоимость: ${rubles.format(estimate.total)}.`,
+    'Цены и надбавки учебные; расчёт не является коммерческим предложением.',
+    '',
+    'Дополнительно о проекте:',
+  ].join('\n');
+}
+
 // ID задаётся в contact.html. До подключения данные никуда не отправляются.
 const contactForm = document.querySelector('#contact-form');
 if (contactForm) {
+  const importedEstimate = estimateFromSearch(new URLSearchParams(window.location.search));
+  const message = contactForm.querySelector('[name="message"]');
+  // Не перезаписываем уже введённое или восстановленное браузером сообщение.
+  if (importedEstimate && message && !message.value) {
+    message.value = estimateMessage(importedEstimate);
+    document.querySelector('#estimate-prefill-note').hidden = false;
+  }
+
   const formId = contactForm.dataset.formspreeId.trim();
   const isConfigured = /^[a-zA-Z0-9]+$/.test(formId);
   const status = document.querySelector('#form-status');
