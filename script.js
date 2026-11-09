@@ -41,6 +41,88 @@ document.querySelectorAll('[data-year]').forEach((element) => {
   element.textContent = new Date().getFullYear();
 });
 
+// Для старых браузеров без нативной группы details[name].
+// Раскрытие и клавиатура остаются нативными, без перехвата нажатий summary.
+if (!('name' in document.createElement('details'))) {
+  const serviceDetails = [...document.querySelectorAll('.service-details')];
+  serviceDetails.forEach((details) => {
+    details.addEventListener('toggle', () => {
+      if (details.open) serviceDetails.forEach((other) => {
+        if (other !== details) other.open = false;
+      });
+    });
+  });
+}
+
+// Сохраняем место закрытой карточки, а раскрытый блок рисуем поверх сетки.
+// Без JS карточки остаются в обычном потоке и полностью доступны.
+function initServiceLayers() {
+  const grid = document.querySelector('.services-grid');
+  if (!grid) return;
+  const cards = [...grid.querySelectorAll('.service-card')];
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const duration = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--motion-duration')) || 200;
+  const layers = cards.map((card) => {
+    const slot = document.createElement('div');
+    slot.className = 'service-card-slot';
+    card.before(slot);
+    slot.append(card);
+    return { card, slot, details: card.querySelector('.service-details'), closeTimer: null };
+  });
+
+  function measure({ card, slot, details }) {
+    const summary = details.querySelector('summary');
+    const style = getComputedStyle(details);
+    const borders = (parseFloat(style.borderTopWidth) || 0) + (parseFloat(style.borderBottomWidth) || 0);
+    // Вычитаем только раскрываемое содержимое, включая промежуточные кадры.
+    const closedHeight = Math.ceil(card.getBoundingClientRect().height
+      - details.getBoundingClientRect().height + summary.getBoundingClientRect().height + borders);
+    const value = `${closedHeight}px`;
+    if (slot.style.getPropertyValue('--service-card-height') !== value) {
+      slot.style.setProperty('--service-card-height', value);
+    }
+  }
+
+  layers.forEach((layer) => {
+    const { card, slot, details } = layer;
+    measure(layer);
+    details.addEventListener('toggle', () => {
+      window.clearTimeout(layer.closeTimer);
+      slot.classList.toggle('is-expanded', details.open);
+      if (details.open) slot.classList.add('is-raised');
+      else layer.closeTimer = window.setTimeout(() => {
+        if (!details.open) slot.classList.remove('is-raised');
+      }, reducedMotion.matches ? 0 : duration);
+    });
+    // При Tab за пределы карточки закрываем перекрытие над новым фокусом.
+    card.addEventListener('focusout', () => window.requestAnimationFrame(() => {
+      if (details.open && !card.contains(document.activeElement)) details.open = false;
+    }));
+  });
+  grid.classList.add('is-layered');
+  if (typeof ResizeObserver === 'function') {
+    const byCard = new Map(layers.map((layer) => [layer.card, layer]));
+    const observer = new ResizeObserver((entries) => entries.forEach((entry) => measure(byCard.get(entry.target))));
+    layers.forEach(({ card }) => observer.observe(card));
+  }
+  window.addEventListener('resize', () => layers.forEach(measure));
+  grid.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    const expanded = layers.find(({ details }) => details.open);
+    if (expanded) {
+      expanded.details.open = false;
+      expanded.details.querySelector('summary').focus();
+      event.preventDefault();
+    }
+  });
+  document.addEventListener('click', (event) => {
+    layers.forEach(({ card, details }) => {
+      if (details.open && !card.contains(event.target)) details.open = false;
+    });
+  });
+}
+initServiceLayers();
+
 // Фильтры работают только на странице портфолио; остальные страницы не затрагиваются.
 const portfolio = document.querySelector('[data-portfolio]');
 if (portfolio) {
