@@ -39,9 +39,12 @@ class ServiceScrollTests(unittest.TestCase):
 
     def wait_aligned(self, index):
         self.page.wait_for_function('''index=>{
-            const summary=document.querySelectorAll('.service-details summary')[index];
-            const header=document.querySelector('.site-header').getBoundingClientRect();
-            return Math.abs(summary.getBoundingClientRect().top-header.bottom-16)<4;
+            const details=document.querySelectorAll('.service-details')[index];
+            const card=details.closest('.service-card').getBoundingClientRect();
+            const safeTop=document.querySelector('.site-header').getBoundingClientRect().bottom+16;
+            const available=innerHeight-16-safeTop;
+            if(card.height<=available) return Math.abs((card.top+card.bottom)/2-(safeTop+innerHeight-16)/2)<4;
+            return Math.abs(details.querySelector('summary').getBoundingClientRect().top-safeTop)<4;
         }''', arg=index)
 
     def test_open_scrolls_to_description_without_shifting_grid(self):
@@ -64,24 +67,44 @@ class ServiceScrollTests(unittest.TestCase):
                     self.assertAlmostEqual(a, b, delta=1)
                 self.assertTrue(self.page.evaluate('document.documentElement.scrollWidth<=innerWidth'))
 
-    def test_already_visible_description_does_not_scroll(self):
-        self.page.set_viewport_size({'width': 1440, 'height': 1800})
-        self.open('services.html')
-        summary = self.page.locator('.service-details summary').first
-        summary.focus()
-        summary.evaluate('''el=>{
-            const top=document.querySelector('.site-header').getBoundingClientRect().bottom+48;
-            scrollTo({top:scrollY+el.getBoundingClientRect().top-top,behavior:'instant'});
-        }''')
-        before = self.page.evaluate('scrollY')
-        self.spy_scroll()
-        summary.click()
-        self.page.wait_for_timeout(350)
-        self.assertEqual(self.page.evaluate('serviceScrollCalls'), [])
-        self.assertAlmostEqual(before, self.page.evaluate('scrollY'), delta=1)
-        summary.press('Space')
-        self.page.wait_for_timeout(100)
-        self.assertEqual(self.page.evaluate('serviceScrollCalls'), [])
+    def test_visible_card_centers_and_reopening_does_not_scroll(self):
+        for width in (375, 768, 1024, 1440):
+            with self.subTest(width=width):
+                self.page.set_viewport_size({'width': width, 'height': 1800})
+                self.open('services.html')
+                summary = self.page.locator('.service-details summary').first
+                summary.focus()
+                summary.evaluate('''el=>{
+                    const top=document.querySelector('.site-header').getBoundingClientRect().bottom+48;
+                    scrollTo({top:scrollY+el.getBoundingClientRect().top-top,behavior:'instant'});
+                }''')
+                self.spy_scroll()
+                summary.press('Enter')
+                self.wait_aligned(0)
+                self.assertEqual(len(self.page.evaluate('serviceScrollCalls')), 1)
+                # At this height the whole card fits: verify actual center and column.
+                card = self.page.locator('.service-card').first
+                geometry = card.evaluate('''el=>{
+                    const r=el.getBoundingClientRect();
+                    const slot=el.parentElement.getBoundingClientRect();
+                    const safeTop=document.querySelector('.site-header').getBoundingClientRect().bottom+16;
+                    return {center:(r.top+r.bottom)/2,target:(safeTop+innerHeight-16)/2,
+                        top:r.top,bottom:r.bottom,safeTop,left:r.left,slotLeft:slot.left};
+                }''')
+                self.assertAlmostEqual(geometry['center'], geometry['target'], delta=2)
+                self.assertAlmostEqual(geometry['left'], geometry['slotLeft'], delta=1)
+                self.assertGreaterEqual(geometry['top'], geometry['safeTop'])
+                self.assertLessEqual(geometry['bottom'], 1784)
+                before = self.page.evaluate('scrollY')
+                summary.press('Space')
+                self.page.wait_for_timeout(100)
+                self.spy_scroll()
+                summary.press('Space')
+                self.wait_aligned(0)
+                self.page.wait_for_timeout(100)
+                self.assertEqual(self.page.evaluate('serviceScrollCalls'), [])
+                self.assertAlmostEqual(before, self.page.evaluate('scrollY'), delta=1)
+                expect(summary).to_be_focused()
 
     def test_cancellation_and_latest_open_card(self):
         self.page.emulate_media(reduced_motion='no-preference')

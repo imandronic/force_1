@@ -90,10 +90,15 @@ function initServiceLayers() {
       const gap = parseFloat(getComputedStyle(grid).getPropertyValue('--space-4')) || 16;
       const header = document.querySelector('.site-header');
       const safeTop = Math.max(gap, (header?.getBoundingClientRect().bottom || 0) + gap);
-      const summaryTop = summary.getBoundingClientRect().top;
-      const bottom = layer.card.getBoundingClientRect().bottom;
-      if (summaryTop >= safeTop && bottom <= window.innerHeight - gap) return;
-      const top = Math.max(0, window.scrollY + summaryTop - safeTop);
+      const card = layer.card.getBoundingClientRect();
+      const availableHeight = window.innerHeight - gap - safeTop;
+      // Центрируем всю карточку в области под шапкой, сохраняя её колонку.
+      // Высокую карточку показываем с начала описания, а не с середины текста.
+      const target = card.height <= availableHeight
+        ? card.top - safeTop - (availableHeight - card.height) / 2
+        : summary.getBoundingClientRect().top - safeTop;
+      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      const top = Math.min(maxScroll, Math.max(0, window.scrollY + target));
       if (Math.abs(top - window.scrollY) < 1) return;
       window.scrollTo({ top, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
     }), reducedMotion.matches ? 0 : duration);
