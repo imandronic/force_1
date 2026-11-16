@@ -70,6 +70,35 @@ function initServiceLayers() {
     return { card, slot, details: card.querySelector('.service-details'), closeTimer: null };
   });
 
+  let scrollTimer = null;
+  let scrollTarget = null;
+
+  function cancelPendingScroll(layer = scrollTarget) {
+    if (scrollTarget !== layer) return;
+    window.clearTimeout(scrollTimer);
+    scrollTarget = null;
+  }
+
+  function revealService(layer) {
+    cancelPendingScroll();
+    scrollTarget = layer;
+    // Ждём раскрытия, затем измеряем реальную шапку и конечную высоту карточки.
+    scrollTimer = window.setTimeout(() => window.requestAnimationFrame(() => {
+      if (scrollTarget !== layer || !layer.details.open) return;
+      scrollTarget = null;
+      const summary = layer.details.querySelector('summary');
+      const gap = parseFloat(getComputedStyle(grid).getPropertyValue('--space-4')) || 16;
+      const header = document.querySelector('.site-header');
+      const safeTop = Math.max(gap, (header?.getBoundingClientRect().bottom || 0) + gap);
+      const summaryTop = summary.getBoundingClientRect().top;
+      const bottom = layer.card.getBoundingClientRect().bottom;
+      if (summaryTop >= safeTop && bottom <= window.innerHeight - gap) return;
+      const top = Math.max(0, window.scrollY + summaryTop - safeTop);
+      if (Math.abs(top - window.scrollY) < 1) return;
+      window.scrollTo({ top, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+    }), reducedMotion.matches ? 0 : duration);
+  }
+
   function measure({ card, slot, details }) {
     const summary = details.querySelector('summary');
     const style = getComputedStyle(details);
@@ -89,10 +118,15 @@ function initServiceLayers() {
     details.addEventListener('toggle', () => {
       window.clearTimeout(layer.closeTimer);
       slot.classList.toggle('is-expanded', details.open);
-      if (details.open) slot.classList.add('is-raised');
-      else layer.closeTimer = window.setTimeout(() => {
-        if (!details.open) slot.classList.remove('is-raised');
-      }, reducedMotion.matches ? 0 : duration);
+      if (details.open) {
+        slot.classList.add('is-raised');
+        revealService(layer);
+      } else {
+        cancelPendingScroll(layer);
+        layer.closeTimer = window.setTimeout(() => {
+          if (!details.open) slot.classList.remove('is-raised');
+        }, reducedMotion.matches ? 0 : duration);
+      }
     });
     // При Tab за пределы карточки закрываем перекрытие над новым фокусом.
     card.addEventListener('focusout', () => window.requestAnimationFrame(() => {
@@ -106,7 +140,10 @@ function initServiceLayers() {
     layers.forEach(({ card }) => observer.observe(card));
   }
   window.addEventListener('resize', () => layers.forEach(measure));
+  window.addEventListener('wheel', () => cancelPendingScroll(), { passive: true });
+  window.addEventListener('touchmove', () => cancelPendingScroll(), { passive: true });
   grid.addEventListener('keydown', (event) => {
+    if (['PageUp', 'PageDown', 'Home', 'End', 'ArrowUp', 'ArrowDown'].includes(event.key)) cancelPendingScroll();
     if (event.key !== 'Escape') return;
     const expanded = layers.find(({ details }) => details.open);
     if (expanded) {
